@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Entry Successful{% endblock %}
+
+{% block content %}
+<div id='card' class="animated fadeIn">
+      <div id='upper-side'>
+          <h3 id='status'>
+              Success
+          </h3>
+      </div>
+    <div id='lower-side'>
+        <p id='message'>
+      Congratulations, your new budget entry has been successful.
+        </p>
+        <p>category: {{ category }}</p>
+        <p>method: {{ method }}</p>
+        <p>amount: {{ amount }}</p>
+        <p>description: {{ description }}</p>
+        <a href="{{ url_for('index') }}" id="contBtn">Go Home</a>
+    </div>
+</div>
+
+{% endblock %}

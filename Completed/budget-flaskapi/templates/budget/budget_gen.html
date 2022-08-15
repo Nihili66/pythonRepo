@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Budget{% endblock %}
+
+{% block content %}
+    <div class="register-page">
+        <div class="form">
+            <h2>General Budget</h2>
+            <div class="table-content">
+                <table style="width: 5%;" border="3">
+                <tbody class="align-content-center">
+                <tr>
+                <td>Categories</td>
+                <td>Deposits</td>
+                <td>Withdrawals</td>
+                <td>Balance</td>
+                </tr>
+                {% for category, values in cg_balance.items() %}
+                    <tr>
+                    <td><a href="/budget/cat/{{ category }}">{{ category }}</a></td>
+                    {% for value in values %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                    </tr>
+                {% endfor %}
+                <tr>
+                <td>Total</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+</div>
+{% endblock %}

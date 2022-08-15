@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Registration Successful{% endblock %}
+
+{% block content %}
+<div id='card' class="animated fadeIn">
+      <div id='upper-side'>
+          <h3 id='status'>
+              Success
+          </h3>
+      </div>
+    <div id='lower-side'>
+        <p id='message'>
+      Congratulations, your new account has been created.
+        </p>
+        <p>username: {{ username }}</p>
+        <p>password: {{ password }}</p>
+        <a href="{{ url_for('auth.login') }}" id="contBtn">Login</a>
+    </div>
+</div>
+
+{% endblock %}
