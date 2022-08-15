@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Budget{% endblock %}
+
+{% block content %}
+    <div class="register-page">
+        <div class="form">
+            <form class="register-form" method="post">
+               <button type="submit" name="type_entry" value="new">New Category</button>
+               <button type="submit" name="type_entry" value="existing">Existing Category</button>
+            </form>
+        </div>
+</div>
+{% endblock %}

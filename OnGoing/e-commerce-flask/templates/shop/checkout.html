@@ -1,0 +1,237 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout{% endblock %}
+{% block static %}<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">{% endblock %}
+
+{% block content %}
+<section class="bg-gray-50 dark:bg-gray-900">
+    <div class="bg-gray-50">
+      <div class="pt-16 pb-24 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+        <h2 class="sr-only">Checkout</h2>
+
+        <form class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16" method="post">
+          <div>
+
+          <!-- Contact information -->
+            <div>
+              <h2 class="text-lg font-medium text-gray-900">Contact information</h2>
+              <div class="mt-4">
+                <label for="email-address" class="block text-sm font-medium text-gray-700">Email address</label>
+                <div class="mt-1">
+                  <input type="email" id="email-address" name="email-address" autocomplete="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                </div>
+              </div>
+            </div>
+
+          <!-- Shipping information -->
+            <div class="mt-10 border-t border-gray-200 pt-10">
+              <h2 class="text-lg font-medium text-gray-900">Shipping information</h2>
+
+              <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                <div>
+                  <label for="first-name" class="block text-sm font-medium text-gray-700">First name</label>
+                  <div class="mt-1">
+                    <input type="text" id="first-name" name="first-name" autocomplete="given-name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="last-name" class="block text-sm font-medium text-gray-700">Last name</label>
+                  <div class="mt-1">
+                    <input type="text" id="last-name" name="last-name" autocomplete="family-name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required>
+                  </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
+                  <div class="mt-1">
+                    <input type="text" name="address" id="address" autocomplete="street-address" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="city" class="block text-sm font-medium text-gray-700">City</label>
+                  <div class="mt-1">
+                    <input type="text" name="city" id="city" autocomplete="address-level2" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="country" class="block text-sm font-medium text-gray-700">Country</label>
+                  <div class="mt-1">
+                    <select id="country" name="country" autocomplete="country-name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required>
+                      <option>United States</option>
+                      <option>Canada</option>
+                      <option>Mexico</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="postal-code" class="block text-sm font-medium text-gray-700">Postal code</label>
+                  <div class="mt-1">
+                    <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required>
+                  </div>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
+                  <div class="mt-1">
+                    <input type="text" name="phone" id="phone" autocomplete="tel" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          <!-- Delivery method -->
+            <div class="mt-10 border-t border-gray-200 pt-10">
+              <fieldset>
+                <legend class="text-lg font-medium text-gray-900">Delivery method</legend>
+                <div class="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
+                    <label for="standard-method" class="relative bg-white border rounded-lg shadow-sm p-4 cursor-pointer flex focus:outline-none">
+                        <input type="radio" id="standard-method" name="deliverymethod" value="5" class="deliverymethod h-5 w-5 text-indigo-600" aria-labelledby="delivery-method-0-label" aria-describedby="delivery-method-0-description-0 delivery-method-0-description-1">
+                        <div class="flex-1 flex">
+                          <div class="flex flex-col">
+                            <span id="delivery-method-0-label" class="block text-sm font-medium text-gray-900"> Standard </span>
+                            <span id="delivery-method-0-description-0" class="mt-1 flex items-center text-sm text-gray-500"> 4–10 business days </span>
+                            <span id="delivery-method-0-description-1" class="mt-6 text-sm font-medium text-gray-900"> $5.00 </span>
+                          </div>
+                        </div>
+                    </label>
+
+                    <label for="express-method" class="relative bg-white border rounded-lg shadow-sm p-4 cursor-pointer flex focus:outline-none">
+                        <input type="radio" id="express-method" name="deliverymethod" value="16" class="deliverymethod h-5 w-5 text-indigo-600" aria-labelledby="delivery-method-1-label" aria-describedby="delivery-method-1-description-0 delivery-method-1-description-1">
+                        <div class="flex-1 flex">
+                          <div class="flex flex-col">
+                            <span id="delivery-method-1-label" class="block text-sm font-medium text-gray-900"> Express </span>
+                            <span id="delivery-method-1-description-0" class="mt-1 flex items-center text-sm text-gray-500"> 2–5 business days </span>
+                            <span id="delivery-method-1-description-1" class="mt-6 text-sm font-medium text-gray-900"> $16.00 </span>
+                          </div>
+                        </div>
+                    </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <!-- Payment -->
+            <div class="hidden mt-10 border-t border-gray-200 pt-10">
+              <h2 class="text-lg font-medium text-gray-900">Payment</h2>
+
+              <fieldset class="mt-4">
+                <legend class="sr-only">Payment type</legend>
+                <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-10">
+                  <div class="flex items-center">
+                    <input id="credit-card" name="payment-type" type="radio" checked class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="credit-card" class="ml-3 block text-sm font-medium text-gray-700"> Credit card </label>
+                  </div>
+
+                  <div class="flex items-center">
+                    <input id="paypal" name="payment-type" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="paypal" class="ml-3 block text-sm font-medium text-gray-700"> PayPal </label>
+                  </div>
+
+                  <div class="flex items-center">
+                    <input id="etransfer" name="payment-type" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
+                    <label for="etransfer" class="ml-3 block text-sm font-medium text-gray-700"> eTransfer </label>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="mt-6 grid grid-cols-4 gap-y-6 gap-x-4">
+                <div class="col-span-4">
+                  <label for="card-number" class="block text-sm font-medium text-gray-700">Card number</label>
+                  <div class="mt-1">
+                    <input type="text" id="card-number" name="card-number" autocomplete="cc-number" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                  </div>
+                </div>
+
+                <div class="col-span-4">
+                  <label for="name-on-card" class="block text-sm font-medium text-gray-700">Name on card</label>
+                  <div class="mt-1">
+                    <input type="text" id="name-on-card" name="name-on-card" autocomplete="cc-name" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                  </div>
+                </div>
+
+                <div class="col-span-3">
+                  <label for="expiration-date" class="block text-sm font-medium text-gray-700">Expiration date (MM/YY)</label>
+                  <div class="mt-1">
+                    <input type="text" name="expiration-date" id="expiration-date" autocomplete="cc-exp" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                  </div>
+                </div>
+
+                <div>
+                  <label for="cvc" class="block text-sm font-medium text-gray-700">CVC</label>
+                  <div class="mt-1">
+                    <input type="text" name="cvc" id="cvc" autocomplete="csc" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order summary -->
+          <div class="mt-10 lg:mt-0">
+            <h2 class="text-lg font-medium text-gray-900">Order summary</h2>
+
+            <div class="mt-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+              <h3 class="sr-only">Items in your cart</h3>
+              <ul role="list" class="divide-y divide-gray-200">
+              {% for entry in cart_list %}
+                <li class="flex py-6 px-4 sm:px-6">
+                  <div class="flex-shrink-0">
+                    <img src="" alt="product image" class="w-20 rounded-md">
+                  </div>
+
+                  <div class="ml-6 flex-1 flex flex-col">
+                    <div class="flex">
+                      <div class="min-w-0 flex-1">
+                        <h4 class="text-sm">
+                          <a href="#" class="font-medium text-gray-700 hover:text-gray-800"> {{ entry[0] }} </a>
+                        </h4>
+                        <p class="mt-1 text-sm text-gray-500">{{ entry[1] }}</p>
+                      </div>
+                    </div>
+
+                    <div class="flex-1 pt-2 flex items-end justify-between">
+                      <p class="mt-1 text-sm font-medium text-gray-900">{{ entry[2] }}</p>
+
+                    </div>
+                  </div>
+                </li>
+              {% endfor %}
+              </ul>
+              <dl class="border-t border-gray-200 py-6 px-4 space-y-6 sm:px-6">
+                <div class="flex items-center justify-between">
+                  <dt class="text-sm">Subtotal</dt>
+                  <dd id="subtotal" class="text-sm font-medium text-gray-900">{{ cart_total }}</dd>
+                </div>
+                <div class="flex items-center justify-between">
+                  <dt class="text-sm">Shipping</dt>
+                  <dd id="shipprice" class="text-sm font-medium text-gray-900">0</dd>
+                </div>
+                <div class="flex items-center justify-between border-t border-gray-200 pt-6">
+                  <dt class="text-base font-medium">Total</dt>
+                  <dd id="total" class="text-base font-medium text-gray-900">{{ cart_total }}</dd>
+                </div>
+              </dl>
+
+              <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
+                <button type="submit" class="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Confirm order</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+$('.deliverymethod').change(function(e) {
+    const $this = $(this), $link = $("#shipprice");
+    $link.html($this.val());
+    let num1 = document.getElementById("subtotal").innerHTML;
+    let num2 = document.getElementById("shipprice").innerHTML;
+    document.getElementById("total").innerHTML = parseInt(num1) + parseInt(num2);
+    });
+</script>
+{% endblock %}

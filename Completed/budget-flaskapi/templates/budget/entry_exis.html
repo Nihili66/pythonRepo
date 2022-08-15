@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Budget{% endblock %}
+
+{% block content %}
+    <div class="register-page">
+        <div class="form">
+            <form class="register-form" method="post">
+                <!-- Category selection div -->
+                <div class="mb-3">
+          <label for="category" class="form-label">Choose a category name:</label>
+          <select class="form-select form-select-lg mb-3" id="category" name="category" aria-label=".form-select-lg method">
+                        <option selected>Categories</option>
+                        {% for category in categories %}
+                            <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+        </div>
+                <!-- Method selection div -->
+                <div class="mb-3">
+                    <label for="method" class="form-label">Select your method:</label>
+                    <select class="form-select form-select-lg mb-3" id="method" name="method" aria-label=".form-select-lg method">
+                        <option selected>Methods</option>
+                        <option value="Deposit">Deposit</option>
+                        <option value="Withdraw">Withdraw</option>
+                    </select>
+                </div>
+                <!-- Amount selection div -->
+                <div class="mb-3">
+                  <label for="amount" class="form-label">Inset an amount:</label>
+                  <input type="number" class="form-control" id="amount" name="amount" placeholder="0">
+                </div>
+                <!-- Description selection div -->
+                <div class="mb-3">
+                  <label for="description" class="form-label">Inset a description:</label>
+                  <input type="text" class="form-control form-control-sm" id="description" name="description" placeholder="description">
+                </div>
+                <!-- Submit button -->
+                <input class="btn btn-primary mb-3" type="submit" value="Submit Entry">
+                <a class="message" href="{{ url_for('budget.new_entry') }}">Go Back</a>
+            </form>
+        </div>
+</div>
+{% endblock %}

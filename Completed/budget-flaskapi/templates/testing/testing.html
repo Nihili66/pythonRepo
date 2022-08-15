@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Testing{% endblock %}
+
+{% block content %}
+    <div class="register-page">
+        <div class="form">
+            <h2>Category's Budget</h2>
+            <div class="table-content">
+                <table border="2">
+                    <tbody>
+                        <tr>
+                            <td style="width: 258px;">
+                                <table style="width: 130px;" border="1">
+                                            <tbody>
+                                                <tr style="height: 59.1562px;">
+                                                    <td style="width: 179.344px; height: 59.1562px;" colspan="2">Deposits</td>
+                                                </tr>
+                                                {% for deposit in cg_deposits %}
+                                                    <tr style="height: 58px;">
+                                                        <td style="width: 179.344px; height: 58px;">{{ deposit[0] }}</td>
+                                                        <td style="width: 177.656px; height: 58px;">{{ deposit[1] }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                <tr style="height: 58px;">
+                                                    <td style="width: 179.344px; height: 58px;">Total</td>
+                                                    <td style="width: 177.656px; height: 58px;">{{ tot_deposits }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                            </td>
+                            <td style="width: 258px;">
+                                <table style="width: 130px;" border="1">
+                                            <tbody>
+                                                <tr style="height: 59.1562px;">
+                                                    <td style="width: 179.344px; height: 59.1562px;" colspan="2">Withdrawals</td>
+                                                </tr>
+                                                {% for withdrawal in cg_withdrawals %}
+                                                    <tr style="height: 58px;">
+                                                        <td style="width: 179.344px; height: 58px;">{{ withdrawal[0] }}</td>
+                                                        <td style="width: 177.656px; height: 58px;">{{ withdrawal[1] }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                                <tr style="height: 58px;">
+                                                    <td style="width: 179.344px; height: 58px;">Total</td>
+                                                    <td style="width: 177.656px; height: 58px;">{{ tot_withdrawals }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 260px;" colspan="2">Balance</td>
+                        </tr>
+                        <tr>
+                            <td style="width: 260px;" colspan="2">{{ cg_balance }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

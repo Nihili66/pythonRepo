@@ -1,0 +1,45 @@
+{
+    "activeFile": "tiles_spritesheet.tsx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "platformer-tiles.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "rogueliketiles.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 4
+        },
+        "sheet.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 4
+        },
+        "tiles_spritesheet.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Coding/Python/Exercices/Assets/Platformer Art Complete Pack/Base pack/Tiles",
+    "openFiles": [
+        "tiles_spritesheet.tsx",
+        "sheet.tsx",
+        "rogueliketiles.tsx"
+    ],
+    "project": "simple-platform.tiled-project",
+    "recentFiles": [
+        "rogueliketiles.tsx",
+        "sheet.tsx",
+        "tiles_spritesheet.tsx",
+        "platformer-tiles.tsx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.margin": 5,
+    "tileset.tileSize": {
+        "height": 64,
+        "width": 64
+    }
+}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Budget{% endblock %}
+
+{% block content %}
+    <div class="register-page">
+        <div class="form">
+            <form class="register-form" method="post">
+                <!-- Category selection div -->
+                <div class="mb-3">
+          <label for="category" class="form-label">Inset a category name:</label>
+          <input type="text" class="form-control form-control-sm" id="category" name="category" placeholder="Category">
+        </div>
+                <!-- Method selection div not needed here -->
+                <!-- Amount selection div -->
+                <div class="mb-3">
+                  <label for="amount" class="form-label">Deposit an amount:</label>
+                  <input type="number" class="form-control" id="amount" name="amount" placeholder="0">
+                </div>
+                <!-- Description selection div -->
+                <div class="mb-3">
+                  <label for="description" class="form-label">Inset a description:</label>
+                  <input type="text" class="form-control form-control-sm" id="description" name="description" placeholder="description">
+                </div>
+                <!-- Submit button -->
+                <input class="btn btn-primary mb-3" type="submit" value="Submit Entry">
+                <a class="message" href="{{ url_for('budget.new_entry') }}">Go Back</a>
+            </form>
+        </div>
+</div>
+{% endblock %}
