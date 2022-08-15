@@ -1,8 +1,6 @@
 import pygame
 from settings import *
-from tile import Tile
-from piece import Piece
-from cursor import Cursor
+from sprites import Tile, Piece, Cursor
 
 class Board:
     def __init__(self, fen):
@@ -40,7 +38,7 @@ class Board:
             if field == "x":
                 pass
             else:
-                Piece(squares[field_index], [self.visible_sprites, self.pieces], fen_dict.get(field))
+                Piece(self.square_list[field_index], [self.visible_sprites, self.pieces], fen_dict.get(field))
 
     def run(self):
         self.cursor.update()
