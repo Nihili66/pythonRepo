@@ -19,9 +19,9 @@ class Board:
                 x = col_index * TILESIZE
                 y = row_index * TILESIZE
                 if col == 'x':
-                    self.square_list[col_index + (row_index * 8)] = Tile((x, y), [self.visible_sprites], "tan")
+                    self.square_list[col_index + (row_index * 8)] = Tile((x, y), [self.visible_sprites], "tan", self.pieces)
                 if col == 'y':
-                    self.square_list[col_index + (row_index * 8)] = Tile((x, y), [self.visible_sprites], "brown")
+                    self.square_list[col_index + (row_index * 8)] = Tile((x, y), [self.visible_sprites], "brown", self.pieces)
 
     def create_pieces(self, fen):
         self.cursor = Cursor()

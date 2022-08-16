@@ -16,14 +16,6 @@ BOARD_MAP = [
     ['y', 'x', 'y', 'x', 'y', 'x', 'y', 'x'],
 ]
 
-# square position enumeration
-squares = []
-for row_index, row in enumerate(BOARD_MAP):
-    for col_index, col in enumerate(row):
-        x = col_index * TILESIZE
-        y = row_index * TILESIZE
-        squares.append((x, y))
-
 # fen characters dictionnary
 fen_dict = {
     'r': "black/rook",
@@ -39,3 +31,14 @@ fen_dict = {
     'K': "white/king",
     'P': "white/pawn",
 }
+
+# piece moves dictionnary
+piece_moves = {
+    "pawn": [(8, 16), (-8, -16)],
+    "knight": [(-17, -15, -10, -6, 6, 10, 15, 17)],
+    "king": [(-1, 1, -8, 8, -9, 9, -7, 7)],
+    "rook": [(-1, 1, -8, 8)],
+    "bishop": [(-9, 9, -7, 7)],
+    "queen": [(-1, 1, -8, 8, -9, 9, -7, 7)]
+}
+
