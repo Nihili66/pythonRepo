@@ -19,6 +19,7 @@ def move_piece(board, event):
                                     sprite.rect.center = square.rect.center
                                     sprite.dragging = False
                                     sprite.square = square
+                                    check_castling(board, sprite)
                                     sprite.already_moved = True
                                 else:
                                     square.piece.kill()
@@ -53,3 +54,21 @@ def check_allowed_moves(board, sprite, sq):
             except IndexError:
                 pass
     return allowed_moves
+
+def check_castling(board, sprite):
+    if sprite.type == "king" and not sprite.already_moved:
+        sq_i = board.square_list.index(sprite.square)
+        if sprite.color == "white":
+            rk_square = board.square_list[sq_i + 1]
+            if rk_square.piece:
+                if rk_square.piece.type == "rook" and not rk_square.piece.already_moved:
+                    rk_square.piece.rect.center = board.square_list[sq_i - 1].rect.center
+                    rk_square.piece.square = board.square_list[sq_i - 1]
+                    rk_square.piece.already_moved = True
+        elif sprite.color == "black":
+            rk_square = board.square_list[sq_i - 1]
+            if rk_square.piece:
+                if rk_square.piece.type == "rook" and not rk_square.piece.already_moved:
+                    rk_square.piece.rect.center = board.square_list[sq_i + 1].rect.center
+                    rk_square.piece.square = board.square_list[sq_i + 1]
+                    rk_square.piece.already_moved = True

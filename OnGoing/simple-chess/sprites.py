@@ -1,5 +1,5 @@
 import pygame
-from settings import TILESIZE, piece_moves
+from settings import TILESIZE
 
 class Cursor(pygame.sprite.Sprite):
     def __init__(self):
@@ -59,10 +59,16 @@ class Piece(pygame.sprite.Sprite):
         elif self.type == "knight":
             return [[-17], [-15], [-10], [-6], [6], [10], [15], [17]]
         elif self.type == "king":
-            return [[-1], [1],   # horizontal
-                    [-8], [8],   # vertical
-                    [-9], [9],  # diagonal
-                    [-7], [7]]   # diagonal
+            if not self.already_moved:
+                return [[-1, -2], [1, 2],   # horizontal
+                        [-8], [8],   # vertical
+                        [-9], [9],  # diagonal
+                        [-7], [7]]   # diagonal
+            elif self.already_moved:
+                return [[-1], [1],   # horizontal
+                        [-8], [8],   # vertical
+                        [-9], [9],  # diagonal
+                        [-7], [7]]  # diagonal
         elif self.type == "rook":
             return [[-1, -2, -3, -4, -5, -6, -7], [1, 2, 3, 4, 5, 6, 7],                  # horizontal
                     [-8, -16, -24, -32, -40, -48, -56], [8, 16, 24, 32, 40, 48, 56]]      # vertical
