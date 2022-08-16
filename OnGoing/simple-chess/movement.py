@@ -14,20 +14,18 @@ def move_piece(board, event):
                     allowed_moves = check_allowed_moves(board, sprite, sq)
                     for square in board.square_list:
                         if square.rect.colliderect(board.cursor.rect):
-                            target_piece = check_collision(sprite, board.pieces)
                             if square in allowed_moves:
-                                if not target_piece:
-                                    sprite.square = square
+                                if not square.piece:
                                     sprite.rect.center = square.rect.center
                                     sprite.dragging = False
-                                elif target_piece.color != sprite.color:
-                                    target_piece.kill()
                                     sprite.square = square
+                                    sprite.already_moved = True
+                                else:
+                                    square.piece.kill()
                                     sprite.rect.center = square.rect.center
                                     sprite.dragging = False
-                                elif target_piece.color == sprite.color:
-                                    sprite.dragging = False
-                                    sprite.rect.center = sq.rect.center
+                                    sprite.square = square
+                                    sprite.already_moved = True
                             else:
                                 sprite.dragging = False
                                 sprite.rect.center = sq.rect.center
@@ -37,19 +35,21 @@ def move_piece(board, event):
                 sprite.rect.center = board.cursor.rect.center
 
 
-def check_collision(sprite, sprite_list):
-    for target_sprite in sprite_list:
-        if target_sprite != sprite and sprite.rect.colliderect(target_sprite.rect):
-            return target_sprite
-    return False
-
-
 def check_allowed_moves(board, sprite, sq):
     allowed_moves = []
     sq_i = board.square_list.index(sq)
-    for move in sprite.moves:
-        try:
-            allowed_moves.append(board.square_list[sq_i + move])
-        except IndexError:
-            pass
+    move_list = sprite.moves
+    for direction in sprite.moves:
+        for move in direction:
+            try:
+                if board.square_list[sq_i + move].piece:
+                    if board.square_list[sq_i + move].piece.color != sprite.color:
+                        allowed_moves.append(board.square_list[sq_i + move])
+                        break
+                    elif board.square_list[sq_i + move].piece.color == sprite.color:
+                        break
+                else:
+                    allowed_moves.append(board.square_list[sq_i + move])
+            except IndexError:
+                pass
     return allowed_moves
