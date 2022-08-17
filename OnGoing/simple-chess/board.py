@@ -1,17 +1,23 @@
 import pygame
 from settings import *
-from sprites import Tile, Piece, Cursor
+from sprites import Player, Tile, Piece, Cursor
 
 class Board:
     def __init__(self, fen):
         self.display_surface = pygame.display.get_surface()
         # sprite groups
+        self.players = pygame.sprite.Group()
         self.visible_sprites = pygame.sprite.Group()
         self.pieces = pygame.sprite.Group()
         self.square_list = list(range(64))
         # sprite creation
         self.create_board()
         self.create_pieces(fen)
+        self.init_players()
+
+    def init_players(self):
+        Player("white", [self.players])
+        Player("black", [self.players])
 
     def create_board(self):
         for row_index, row in enumerate(BOARD_MAP):

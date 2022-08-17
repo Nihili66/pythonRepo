@@ -6,7 +6,9 @@ def move_piece(board, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if sprite.rect.colliderect(board.cursor.rect):
-                    sprite.dragging = True
+                    for player in board.players:
+                        if player.color == sprite.color and player.turn:
+                            sprite.dragging = True
 
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
@@ -21,12 +23,14 @@ def move_piece(board, event):
                                     sprite.square = square
                                     check_castling(board, sprite)
                                     sprite.already_moved = True
+                                    switch_turns(board)
                                 else:
                                     square.piece.kill()
                                     sprite.rect.center = square.rect.center
                                     sprite.dragging = False
                                     sprite.square = square
                                     sprite.already_moved = True
+                                    switch_turns(board)
                             else:
                                 sprite.dragging = False
                                 sprite.rect.center = sq.rect.center
@@ -72,3 +76,10 @@ def check_castling(board, sprite):
                     rk_square.piece.rect.center = board.square_list[sq_i + 1].rect.center
                     rk_square.piece.square = board.square_list[sq_i + 1]
                     rk_square.piece.already_moved = True
+
+def switch_turns(board):
+    for player in board.players:
+        if player.turn:
+            player.turn = False
+        else:
+            player.turn = True
