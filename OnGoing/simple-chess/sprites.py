@@ -1,10 +1,22 @@
 import pygame
 from settings import TILESIZE
 
+class Player(pygame.sprite.Sprite):
+    def __init__(self, color, groups):
+        super().__init__(groups)
+        self.color = color
+        self.turn = self.init_turns()
+
+    def init_turns(self):
+        if self.color == "white":
+            return True
+        elif self.color == "black":
+            return False
+
 class Cursor(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.rect = pygame.rect.Rect(0, 0, 12, 20)
+        self.rect = pygame.rect.Rect(0, 0, 10, 10)
 
     def update(self):
         mx, my = pygame.mouse.get_pos()
