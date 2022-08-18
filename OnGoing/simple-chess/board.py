@@ -20,14 +20,13 @@ class Board:
         Player("black", [self.players])
 
     def create_board(self):
-        for row_index, row in enumerate(BOARD_MAP):
-            for col_index, col in enumerate(row):
-                x = col_index * TILESIZE
-                y = row_index * TILESIZE
-                if col == 'x':
-                    self.square_list[col_index + (row_index * 8)] = Tile((x, y), [self.visible_sprites], "tan", self.pieces)
-                if col == 'y':
-                    self.square_list[col_index + (row_index * 8)] = Tile((x, y), [self.visible_sprites], "brown", self.pieces)
+        for file in range(8):
+            for rank in range(8):
+                is_light = (file + rank) % 2 == 0
+                color = (245, 210, 154) if is_light else (110, 77, 26)
+                x = rank * TILESIZE
+                y = file * TILESIZE
+                self.square_list[rank + (file * 8)] = Tile((x, y), [self.visible_sprites], color, self.pieces)
 
     def create_pieces(self, fen):
         self.cursor = Cursor()

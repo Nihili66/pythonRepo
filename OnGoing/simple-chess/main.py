@@ -4,7 +4,7 @@ import pygame_gui
 from gui import Welcomegui
 from settings import *
 from board import Board
-from movement import move_piece
+from movement import MovementLogic
 
 class Game:
     def __init__(self):
@@ -19,6 +19,8 @@ class Game:
         self.gui = Welcomegui()
         # board init
         self.board = None
+        # movement logic init
+        self.movement = None
 
     def run(self):
         while True:
@@ -28,12 +30,21 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if self.board:
-                    move_piece(self.board, event)
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if event.button == 1:
+                            self.movement.clicking(event)
+                    if self.movement.piece:
+                        if event.type == pygame.MOUSEBUTTONUP:
+                            if event.button == 1:
+                                self.movement.putting(event)
+                        if event.type == pygame.MOUSEMOTION:
+                            self.movement.dragging()
                 self.gui.manager.process_events(event)
                 if event.type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == self.gui.start_button:
                         self.gui.manager.clear_and_reset()
                         self.board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+                        self.movement = MovementLogic(self.board)
 
             if self.board:
                 self.board.run()
