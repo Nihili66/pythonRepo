@@ -28,9 +28,11 @@ class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, groups, color, piece_list):
         super().__init__(groups)
         # setup
-        self.color = color
+        self.original_color = color
+        self.color = self.original_color
         self.image = pygame.Surface([TILESIZE, TILESIZE])
         self.rect = self.image.get_rect(topleft=pos)
+        # pieces
         self.piece_list = piece_list
         self.piece = None
 

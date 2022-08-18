@@ -17,22 +17,34 @@ class MovementLogic:
             for player in self.board.players:
                 if player.color == self.piece.color and player.turn:
                     self.piece.dragging = True
+                    self.allowed_moves = check_allowed_moves(self.board, self.piece, self.current_sq)
+                    hover_squares(self.allowed_moves)
 
     def putting(self, event):
         if self.piece.dragging:
-            allowed_moves = check_allowed_moves(self.board, self.piece, self.current_sq)
             self.target_sq = self.board.square_list[event.pos[1] // TILESIZE * 8 + event.pos[0] // TILESIZE]
-            if self.target_sq in allowed_moves:
+            if self.target_sq in self.allowed_moves:
                 if not self.target_sq.piece:
                     move_piece("normal", self.piece, self.target_sq, self.board)
+                    hover_squares(self.allowed_moves, False)
                 else:
                     move_piece("kill", self.piece, self.target_sq, self.board)
+                    hover_squares(self.allowed_moves, False)
             else:
                 move_piece("cancel", self.piece, self.current_sq, self.board)
+                hover_squares(self.allowed_moves, False)
 
     def dragging(self):
         if self.piece.dragging:
             self.piece.rect.center = self.board.cursor.rect.center
+
+
+def hover_squares(squares, toggled=True):
+    for square in squares:
+        if toggled:
+            square.color = (255, 0, 0)
+        else:
+            square.color = square.original_color
 
 
 def check_allowed_moves(board, sprite, sq):
@@ -40,17 +52,19 @@ def check_allowed_moves(board, sprite, sq):
     sq_i = board.square_list.index(sq)
     for direction in sprite.moves:
         for move in direction:
-            try:
-                if board.square_list[sq_i + move].piece:
-                    if board.square_list[sq_i + move].piece.color != sprite.color:
-                        allowed_moves.append(board.square_list[sq_i + move])
-                        break
-                    elif board.square_list[sq_i + move].piece.color == sprite.color:
-                        break
-                else:
-                    allowed_moves.append(board.square_list[sq_i + move])
-            except IndexError:
-                pass
+            movement = sq_i + move
+            if 64 > movement >= 0:
+                try:
+                    if board.square_list[movement].piece:
+                        if board.square_list[movement].piece.color != sprite.color:
+                            allowed_moves.append(board.square_list[movement])
+                            break
+                        elif board.square_list[movement].piece.color == sprite.color:
+                            break
+                    else:
+                        allowed_moves.append(board.square_list[movement])
+                except IndexError:
+                    pass
     return allowed_moves
 
 def check_castling(board, sprite):
