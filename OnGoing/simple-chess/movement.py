@@ -1,49 +1,43 @@
-import pygame
+from settings import TILESIZE
 
-def move_piece(board, event):
-    for sprite in board.pieces:
-        sq = sprite.square
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                if sprite.rect.colliderect(board.cursor.rect):
-                    for player in board.players:
-                        if player.color == sprite.color and player.turn:
-                            sprite.dragging = True
 
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
-                if sprite.dragging:
-                    allowed_moves = check_allowed_moves(board, sprite, sq)
-                    for square in board.square_list:
-                        if square.rect.colliderect(board.cursor.rect):
-                            if square in allowed_moves:
-                                if not square.piece:
-                                    sprite.rect.center = square.rect.center
-                                    sprite.dragging = False
-                                    sprite.square = square
-                                    check_castling(board, sprite)
-                                    sprite.already_moved = True
-                                    switch_turns(board)
-                                else:
-                                    square.piece.kill()
-                                    sprite.rect.center = square.rect.center
-                                    sprite.dragging = False
-                                    sprite.square = square
-                                    sprite.already_moved = True
-                                    switch_turns(board)
-                            else:
-                                sprite.dragging = False
-                                sprite.rect.center = sq.rect.center
+class MovementLogic:
+    def __init__(self, board):
+        self.board = board
+        self.current_sq = None
+        self.piece = None
+        self.target_sq = None
+        self.allowed_moves = []
+        self.move = []
 
-        elif event.type == pygame.MOUSEMOTION:
-            if sprite.dragging:
-                sprite.rect.center = board.cursor.rect.center
+    def clicking(self, event):
+        self.current_sq = self.board.square_list[event.pos[1] // TILESIZE * 8 + event.pos[0] // TILESIZE]
+        if self.current_sq.piece:
+            self.piece = self.current_sq.piece
+            for player in self.board.players:
+                if player.color == self.piece.color and player.turn:
+                    self.piece.dragging = True
+
+    def putting(self, event):
+        if self.piece.dragging:
+            allowed_moves = check_allowed_moves(self.board, self.piece, self.current_sq)
+            self.target_sq = self.board.square_list[event.pos[1] // TILESIZE * 8 + event.pos[0] // TILESIZE]
+            if self.target_sq in allowed_moves:
+                if not self.target_sq.piece:
+                    move_piece("normal", self.piece, self.target_sq, self.board)
+                else:
+                    move_piece("kill", self.piece, self.target_sq, self.board)
+            else:
+                move_piece("cancel", self.piece, self.current_sq, self.board)
+
+    def dragging(self):
+        if self.piece.dragging:
+            self.piece.rect.center = self.board.cursor.rect.center
 
 
 def check_allowed_moves(board, sprite, sq):
     allowed_moves = []
     sq_i = board.square_list.index(sq)
-    move_list = sprite.moves
     for direction in sprite.moves:
         for move in direction:
             try:
@@ -83,3 +77,22 @@ def switch_turns(board):
             player.turn = False
         else:
             player.turn = True
+
+def move_piece(move_type, sprite, target_sq, board):
+    if move_type == "normal":
+        sprite.rect.center = target_sq.rect.center
+        sprite.dragging = False
+        sprite.square = target_sq
+        check_castling(board, sprite)
+        sprite.already_moved = True
+        switch_turns(board)
+    elif move_type == "kill":
+        target_sq.piece.kill()
+        sprite.rect.center = target_sq.rect.center
+        sprite.dragging = False
+        sprite.square = target_sq
+        sprite.already_moved = True
+        switch_turns(board)
+    elif move_type == "cancel":
+        sprite.dragging = False
+        sprite.rect.center = sprite.square.rect.center

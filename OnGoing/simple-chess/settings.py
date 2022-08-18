@@ -1,20 +1,9 @@
 # screen settings
 FPS = 60
 TILESIZE = 70
-WIDTH = 8 * TILESIZE + 250
+WIDTH = 8 * TILESIZE
 HEIGTH = 8 * TILESIZE
 
-# board squares
-BOARD_MAP = [
-    ['x', 'y', 'x', 'y', 'x', 'y', 'x', 'y'],
-    ['y', 'x', 'y', 'x', 'y', 'x', 'y', 'x'],
-    ['x', 'y', 'x', 'y', 'x', 'y', 'x', 'y'],
-    ['y', 'x', 'y', 'x', 'y', 'x', 'y', 'x'],
-    ['x', 'y', 'x', 'y', 'x', 'y', 'x', 'y'],
-    ['y', 'x', 'y', 'x', 'y', 'x', 'y', 'x'],
-    ['x', 'y', 'x', 'y', 'x', 'y', 'x', 'y'],
-    ['y', 'x', 'y', 'x', 'y', 'x', 'y', 'x'],
-]
 
 # fen characters dictionnary
 fen_dict = {
