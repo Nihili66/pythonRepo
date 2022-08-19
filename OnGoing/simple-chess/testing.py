@@ -1,17 +1,12 @@
 square_to_edges = []
 
 
-move_offsets = [8, -8, -1, 1, 7, -7, 9, -9]
+move_offsets = [-17,-10, 15, 6, -15, -6, 17, 10,]
 
-if self.type == "rook":
-    move_offsets[:4]
-    square_to_edges[sq_i][:4]
-elif self.type == "bishop":
-    move_offsets[4:]
-    square_to_edges[sq_i][4:]
-elif self.type == "queen":
-    move_offsets
-    square_to_edges[sq_i]
+square_to_edges[sq_index] = [down, up, left, right, diag_downleft, diag_upright, diag_downright,
+                                             diag_upleft]
+
+
 
 def check_allowed_moves(board, sprite, sq):
     allowed_moves = []
@@ -24,17 +19,31 @@ def check_allowed_moves(board, sprite, sq):
     return allowed_moves
 
 def normal_gen(board, sprite, sq_i, allowed_moves):
+    y = int(sq_i / 8)
+    x = int(sq_i - y * 8)
     for move in sprite.moves:
-        movement = sq_i + move
-        if 64 > movement >= 0:
-            if board.square_list[movement].piece:
-                if board.square_list[movement].piece.color != sprite.color:
-                    allowed_moves.append(board.square_list[movement])
-                    break
-                elif board.square_list[movement].piece.color == sprite.color:
-                    break
+        target_i = sq_i + move
+        if 64 > target_i >= 0:
+            if sprite.type == "pawn":
+                if board.square_list[target_i].piece and board.square_list[target_i].piece.color != sprite.color and move in sprite.moves[-2:]:
+                    allowed_moves.append(board.square_list[target_i])
+                elif not board.square_list[target_i].piece:
+                    allowed_moves.append(board.square_list[target_i])
+            elif sprite.type == "knight":
+                target_y = int(target_i / 8)
+                target_x = int(target_i - target_y * 8)
+                max_move = max((x - target_x), (y - target_y))
+                if max_move == 2:
+                    if board.square_list[target_i].piece and board.square_list[target_i].piece.color != sprite.color:
+                        allowed_moves.append(board.square_list[target_i])
+                    elif not board.square_list[target_i].piece:
+                        allowed_moves.append(board.square_list[target_i])
             else:
-                allowed_moves.append(board.square_list[movement])
+                if board.square_list[target_i].piece and board.square_list[target_i].piece.color != sprite.color:
+                    allowed_moves.append(board.square_list[target_i])
+                elif not board.square_list[target_i].piece:
+                    allowed_moves.append(board.square_list[target_i])
+
 
 def sliding_gen(board, sprite, sq_i, allowed_moves):
     x = 0
