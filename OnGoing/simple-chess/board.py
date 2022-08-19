@@ -10,23 +10,42 @@ class Board:
         self.visible_sprites = pygame.sprite.Group()
         self.pieces = pygame.sprite.Group()
         self.square_list = list(range(64))
+        self.square_to_edges = list(range(64))
         # sprite creation
         self.create_board()
         self.create_pieces(fen)
         self.init_players()
+        self.get_squares_to_edges()
 
     def init_players(self):
         Player("white", [self.players])
         Player("black", [self.players])
 
     def create_board(self):
-        for file in range(8):
-            for rank in range(8):
-                is_light = (file + rank) % 2 == 0
+        for rank in range(8):
+            for file in range(8):
+                is_light = (rank + file) % 2 == 0
                 color = (245, 210, 154) if is_light else (110, 77, 26)
-                x = rank * TILESIZE
-                y = file * TILESIZE
-                self.square_list[rank + (file * 8)] = Tile((x, y), [self.visible_sprites], color, self.pieces)
+                x = file * TILESIZE
+                y = rank * TILESIZE
+                self.square_list[file + (rank * 8)] = Tile((x, y), [self.visible_sprites], color, self.pieces)
+
+    def get_squares_to_edges(self):
+        for rank in range(8):
+            for file in range(8):
+                down = 7 - rank
+                up = rank
+                left = file
+                right = 7 - file
+                diag_upleft = min(up, left)
+                diag_upright = min(up, right)
+                diag_downleft = min(down, left)
+                diag_downright = min(down, right)
+
+                sq_index = file + (rank * 8)
+
+                self.square_to_edges[sq_index] = [down, up, left, right, diag_downleft, diag_upright, diag_downright,
+                                             diag_upleft]
 
     def create_pieces(self, fen):
         self.cursor = Cursor()
@@ -43,7 +62,7 @@ class Board:
             if field == "x":
                 pass
             else:
-                Piece(self.square_list[field_index], [self.visible_sprites, self.pieces], fen_dict.get(field))
+                Piece(self.square_list[field_index], [self.visible_sprites, self.pieces], fen_dict.get(field)[0], fen_dict.get(field)[1])
 
     def run(self):
         self.cursor.update()

@@ -7,17 +7,17 @@ HEIGTH = 8 * TILESIZE
 
 # fen characters dictionnary
 fen_dict = {
-    'r': "black/rook",
-    'n': "black/knight",
-    'b': "black/bishop",
-    'q': "black/queen",
-    'k': "black/king",
-    'p': "black/pawn",
-    'R': "white/rook",
-    'N': "white/knight",
-    'B': "white/bishop",
-    'Q': "white/queen",
-    'K': "white/king",
-    'P': "white/pawn",
+    'r': ["black/rook", "sliding"],
+    'n': ["black/knight", "normal"],
+    'b': ["black/bishop", "sliding"],
+    'q': ["black/queen", "sliding"],
+    'k': ["black/king", "normal"],
+    'p': ["black/pawn", "normal"],
+    'R': ["white/rook", "sliding"],
+    'N': ["white/knight", "normal"],
+    'B': ["white/bishop", "sliding"],
+    'Q': ["white/queen", "sliding"],
+    'K': ["white/king", "normal"],
+    'P': ["white/pawn", "normal"],
 }
 

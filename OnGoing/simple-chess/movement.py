@@ -46,26 +46,50 @@ def hover_squares(squares, toggled=True):
         else:
             square.color = square.original_color
 
-
 def check_allowed_moves(board, sprite, sq):
     allowed_moves = []
     sq_i = board.square_list.index(sq)
-    for direction in sprite.moves:
-        for move in direction:
-            movement = sq_i + move
-            if 64 > movement >= 0:
-                try:
-                    if board.square_list[movement].piece:
-                        if board.square_list[movement].piece.color != sprite.color:
-                            allowed_moves.append(board.square_list[movement])
-                            break
-                        elif board.square_list[movement].piece.color == sprite.color:
-                            break
-                    else:
-                        allowed_moves.append(board.square_list[movement])
-                except IndexError:
-                    pass
+    if sprite.move_type == "sliding":
+        sliding_gen(board, sprite, sq_i, allowed_moves)
+    elif sprite.move_type == "normal":
+        normal_gen(board, sprite, sq_i, allowed_moves)
     return allowed_moves
+
+def normal_gen(board, sprite, sq_i, allowed_moves):
+    move_offsets = sprite.moves
+    for move in sprite.moves:
+        movement = sq_i + move
+        if 64 > movement >= 0:
+            if board.square_list[movement].piece:
+                if board.square_list[movement].piece.color != sprite.color:
+                    allowed_moves.append(board.square_list[movement])
+                    pass
+                elif board.square_list[movement].piece.color == sprite.color:
+                    pass
+            else:
+                allowed_moves.append(board.square_list[movement])
+
+def sliding_gen(board, sprite, sq_i, allowed_moves):
+    move_offsets = sprite.moves
+    x = 0
+    y = None
+    if sprite.type == "rook":
+        x = 0
+        y = 4
+    elif sprite.type == "bishop":
+        x = 4
+        y = None
+    for direction_index, direction in enumerate(board.square_to_edges[sq_i][x:y]):
+        for number in range(1, direction + 1):
+            movement = sq_i + number * move_offsets[x:y][direction_index]
+            if board.square_list[movement].piece:
+                if board.square_list[movement].piece.color != sprite.color:
+                    allowed_moves.append(board.square_list[movement])
+                    break
+                elif board.square_list[movement].piece.color == sprite.color:
+                    break
+            else:
+                allowed_moves.append(board.square_list[movement])
 
 def check_castling(board, sprite):
     if sprite.type == "king" and not sprite.already_moved:
