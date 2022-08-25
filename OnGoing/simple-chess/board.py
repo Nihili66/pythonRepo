@@ -18,8 +18,8 @@ class Board:
         self.get_squares_to_edges()
 
     def init_players(self):
-        Player("white", [self.players])
-        Player("black", [self.players])
+        self.whiteP = Player("white", [self.players])
+        self.blackP = Player("black", [self.players])
 
     def create_board(self):
         for rank in range(8):
