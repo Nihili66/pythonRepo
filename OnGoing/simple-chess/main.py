@@ -32,20 +32,15 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if self.board:
-                    if self.whiteP.turn:
-                        if event.type == pygame.MOUSEBUTTONDOWN:
-                            if event.button == 1:
-                                self.whiteP.movement.clicking(event)
-                        if self.whiteP.movement.piece:
-                            if event.type == pygame.MOUSEBUTTONUP:
-                                if event.button == 1:
-                                    self.whiteP.movement.putting(event)
-                            if event.type == pygame.MOUSEMOTION:
-                                self.whiteP.movement.dragging()
-                    if self.blackP.turn:
-                        self.blackP.movement.pick_move()
-                        if self.blackP.movement.piece:
-                            self.blackP.movement.invoke_move()
+                    for player in self.board.players:
+                        if player.turn and player.type == "human":
+                            player.movement.pick_move(event)
+                            if player.movement.piece:
+                                player.movement.play_move(event)
+                        elif player.turn and player.type == "AI":
+                            player.movement.pick_move()
+                            if player.movement.move:
+                                player.movement.play_move()
                 self.gui.manager.process_events(event)
                 if event.type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == self.gui.start_button:
