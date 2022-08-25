@@ -14,12 +14,7 @@ class Board:
         # sprite creation
         self.create_board()
         self.create_pieces(fen)
-        self.init_players()
         self.get_squares_to_edges()
-
-    def init_players(self):
-        self.whiteP = Player("white", [self.players])
-        self.blackP = Player("black", [self.players])
 
     def create_board(self):
         for rank in range(8):

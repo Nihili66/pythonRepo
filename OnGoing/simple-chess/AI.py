@@ -12,7 +12,7 @@ class AiMovement:
         self.piece = None
         self.target_sq = None
 
-    def pick_random_move(self):
+    def pick_move(self):
         self.movegenerator = MoveGenerator(self.board, self.player)
         self.movegenerator.generate_allowed_moves()
         self.allowed_moves = self.movegenerator.legal_moves
@@ -24,8 +24,10 @@ class AiMovement:
     def invoke_move(self):
         if not self.target_sq.piece:
             move_piece("normal", self.piece, self.target_sq, self.board)
+            self.piece = None
         else:
             move_piece("kill", self.piece, self.target_sq, self.board)
+            self.piece = None
 
 def move_piece(move_type, sprite, target_sq, board):
     if move_type == "normal":
