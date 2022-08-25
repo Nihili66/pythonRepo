@@ -8,14 +8,9 @@ class Player(pygame.sprite.Sprite):
         super().__init__(group)
         self.board = board
         self.color = color
-        self.turn = self.init_turns()
+        self.turn = True if self.color == "white" else False
         self.type = type
         self.movement = HumanMovement(self.board, self) if self.type == "human" else AiMovement(self.board, self)
-    def init_turns(self):
-        if self.color == "white":
-            return True
-        elif self.color == "black":
-            return False
 
 class Cursor(pygame.sprite.Sprite):
     def __init__(self):
@@ -26,7 +21,6 @@ class Cursor(pygame.sprite.Sprite):
         mx, my = pygame.mouse.get_pos()
         self.rect.x = mx
         self.rect.y = my
-
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, groups, color, piece_list):
