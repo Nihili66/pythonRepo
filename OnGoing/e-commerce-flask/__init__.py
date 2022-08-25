@@ -21,8 +21,8 @@ def create_app():
     from . import cart
     app.register_blueprint(cart.bp)
 
-    from . import testing
-    app.register_blueprint(testing.bp)
+    # from . import testing
+    # app.register_blueprint(testing.bp)
 
     return app
 

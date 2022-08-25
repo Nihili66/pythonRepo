@@ -4,7 +4,7 @@ import pygame_gui
 from gui import Welcomegui
 from settings import *
 from board import Board
-from movement import MovementLogic
+from movement import HumanMovement
 
 class Game:
     def __init__(self):
@@ -43,8 +43,8 @@ class Game:
                 if event.type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == self.gui.start_button:
                         self.gui.manager.clear_and_reset()
-                        self.board = Board("K6K/N6N/3q4/2q1q3/3P4/N7/7N/K6K")
-                        self.movement = MovementLogic(self.board)
+                        self.board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+                        self.movement = HumanMovement(self.board)
 
             if self.board:
                 self.board.run()

@@ -106,7 +106,7 @@ def del_prod(p_id):
     db.execute_sql(
         "DELETE FROM products WHERE id = ?", (product_id,)).fetchone()
 
-    return redirect(url_for('admin.shop'))
+    return redirect(url_for('admin.products'))
 
 @bp.route('users')
 @login_required

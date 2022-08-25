@@ -1,5 +1,5 @@
 from loss import *
-from nnfs.datasets import *
+from nnfs.datasets import vertical_data
 from layer import *
 from activation import *
 from randtrainer import training
