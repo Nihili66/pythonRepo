@@ -3,8 +3,9 @@ from movegenerator import MoveGenerator
 
 
 class HumanMovement:
-    def __init__(self, board):
+    def __init__(self, board, player):
         self.board = board
+        self.player = player
         self.movegenerator = None
         self.current_sq = None
         self.piece = None
@@ -15,13 +16,12 @@ class HumanMovement:
         self.current_sq = self.board.square_list[event.pos[1] // TILESIZE * 8 + event.pos[0] // TILESIZE]
         if self.current_sq.piece:
             self.piece = self.current_sq.piece
-            for player in self.board.players:
-                if player.color == self.piece.color and player.turn:
-                    self.piece.dragging = True
-                    self.movegenerator = MoveGenerator(self.board, player)
-                    self.movegenerator.generate_allowed_moves()
-                    self.allowed_moves = self.movegenerator.legal_moves
-                    hover_squares(self.allowed_moves, self.current_sq)
+            if self.player.color == self.piece.color and self.player.turn:
+                self.piece.dragging = True
+                self.movegenerator = MoveGenerator(self.board, self.player)
+                self.movegenerator.generate_allowed_moves()
+                self.allowed_moves = self.movegenerator.legal_moves
+                hover_squares(self.allowed_moves, self.current_sq)
 
     def putting(self, event):
         if self.piece.dragging:

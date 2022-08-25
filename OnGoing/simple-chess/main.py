@@ -4,7 +4,8 @@ import pygame_gui
 from gui import Welcomegui
 from settings import *
 from board import Board
-from movement import HumanMovement
+from Human import HumanMovement
+from AI import AiMovement
 
 class Game:
     def __init__(self):
@@ -20,7 +21,8 @@ class Game:
         # board init
         self.board = None
         # movement logic init
-        self.movement = None
+        self.humanmovement = None
+        self.aimovement = None
 
     def run(self):
         while True:
@@ -32,19 +34,24 @@ class Game:
                 if self.board:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if event.button == 1:
-                            self.movement.clicking(event)
-                    if self.movement.piece:
+                            self.humanmovement.clicking(event)
+                    if self.humanmovement.piece:
                         if event.type == pygame.MOUSEBUTTONUP:
                             if event.button == 1:
-                                self.movement.putting(event)
+                                self.humanmovement.putting(event)
                         if event.type == pygame.MOUSEMOTION:
-                            self.movement.dragging()
+                            self.humanmovement.dragging()
+                    if self.aimovement.player.turn:
+                        self.aimovement.pick_random_move()
+                        if self.aimovement.piece:
+                            self.aimovement.invoke_move()
                 self.gui.manager.process_events(event)
                 if event.type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == self.gui.start_button:
                         self.gui.manager.clear_and_reset()
                         self.board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
-                        self.movement = HumanMovement(self.board)
+                        self.humanmovement = HumanMovement(self.board, self.board.whiteP)
+                        self.aimovement = AiMovement(self.board, self.board.blackP)
 
             if self.board:
                 self.board.run()
