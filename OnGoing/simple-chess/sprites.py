@@ -1,12 +1,16 @@
 import pygame
 from settings import TILESIZE
+from human import HumanMovement
+from AI import AiMovement
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, color, groups):
-        super().__init__(groups)
+    def __init__(self, color, type, board, group):
+        super().__init__(group)
+        self.board = board
         self.color = color
         self.turn = self.init_turns()
-
+        self.type = type
+        self.movement = HumanMovement(self.board, self) if self.type == "human" else AiMovement(self.board, self)
     def init_turns(self):
         if self.color == "white":
             return True
@@ -79,12 +83,6 @@ class Piece(pygame.sprite.Sprite):
                 return [-1, -2, 1, 2, -8, 8, -9, 9, -7, 7]
             elif self.already_moved:
                 return [-1, 1, -8, 8, -9, 9, -7, 7]
-        elif self.type == "rook":
-            return [8, -8, -1, 1, 7, -7, 9, -9]
-        elif self.type == "bishop":
-            return [8, -8, -1, 1, 7, -7, 9, -9]
-        elif self.type == "queen":
-            return [8, -8, -1, 1, 7, -7, 9, -9]
 
     def update(self):
         self.moves = self.gen_moves()

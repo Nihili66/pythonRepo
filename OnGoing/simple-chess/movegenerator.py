@@ -55,7 +55,7 @@ def normal_gen(board, sprite, current_sq_i, allowed_moves):
 
 
 def sliding_gen(board, sprite, current_sq_i, allowed_moves):
-    move_offsets = sprite.moves
+    move_offsets = [8, -8, -1, 1, 7, -7, 9, -9]
     x = 4 if sprite.type == "bishop" else 0
     y = 4 if sprite.type == "rook" else None
     for direction_index, direction in enumerate(board.square_to_edges[current_sq_i][x:y]):

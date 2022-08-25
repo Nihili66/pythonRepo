@@ -3,9 +3,9 @@ import pygame
 import pygame_gui
 from gui import Welcomegui
 from settings import *
+from sprites import Player
 from board import Board
-from Human import HumanMovement
-from AI import AiMovement
+
 
 class Game:
     def __init__(self):
@@ -18,11 +18,11 @@ class Game:
         self.clock = pygame.time.Clock()
         # gui setup
         self.gui = Welcomegui()
+        # players init
+        self.whiteP = None
+        self.blackP = None
         # board init
         self.board = None
-        # movement logic init
-        self.humanmovement = None
-        self.aimovement = None
 
     def run(self):
         while True:
@@ -32,26 +32,27 @@ class Game:
                     pygame.quit()
                     sys.exit()
                 if self.board:
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        if event.button == 1:
-                            self.humanmovement.clicking(event)
-                    if self.humanmovement.piece:
-                        if event.type == pygame.MOUSEBUTTONUP:
+                    if self.whiteP.turn:
+                        if event.type == pygame.MOUSEBUTTONDOWN:
                             if event.button == 1:
-                                self.humanmovement.putting(event)
-                        if event.type == pygame.MOUSEMOTION:
-                            self.humanmovement.dragging()
-                    if self.aimovement.player.turn:
-                        self.aimovement.pick_random_move()
-                        if self.aimovement.piece:
-                            self.aimovement.invoke_move()
+                                self.whiteP.movement.clicking(event)
+                        if self.whiteP.movement.piece:
+                            if event.type == pygame.MOUSEBUTTONUP:
+                                if event.button == 1:
+                                    self.whiteP.movement.putting(event)
+                            if event.type == pygame.MOUSEMOTION:
+                                self.whiteP.movement.dragging()
+                    if self.blackP.turn:
+                        self.blackP.movement.pick_move()
+                        if self.blackP.movement.piece:
+                            self.blackP.movement.invoke_move()
                 self.gui.manager.process_events(event)
                 if event.type == pygame_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == self.gui.start_button:
                         self.gui.manager.clear_and_reset()
                         self.board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
-                        self.humanmovement = HumanMovement(self.board, self.board.whiteP)
-                        self.aimovement = AiMovement(self.board, self.board.blackP)
+                        self.whiteP = Player("white", "human", self.board, self.board.players)
+                        self.blackP = Player("black", "AI", self.board, self.board.players)
 
             if self.board:
                 self.board.run()
