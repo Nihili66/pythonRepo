@@ -23,6 +23,7 @@ class GManager:
             if event.ui_element == self.start_button:
                 self.manager.clear_and_reset()
                 self.board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", self)
+                self.board.run()
                 self.whiteP = Player("white", "human", self.board, self.board.players)
                 self.blackP = Player("black", "AI", self.board, self.board.players)
                 timers_init(self)

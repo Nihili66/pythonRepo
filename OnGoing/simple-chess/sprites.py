@@ -73,10 +73,7 @@ class Piece(pygame.sprite.Sprite):
         elif self.type == "knight":
             return [-17, -15, -10, -6, 6, 10, 15, 17]
         elif self.type == "king":
-            if not self.already_moved:
-                return [-1, -2, 1, 2, -8, 8, -9, 9, -7, 7]
-            elif self.already_moved:
-                return [-1, 1, -8, 8, -9, 9, -7, 7]
+            return [-1, 1, -8, 8, -9, 9, -7, 7]
 
     def update(self):
         self.moves = self.gen_moves()

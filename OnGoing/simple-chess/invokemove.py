@@ -15,8 +15,6 @@ class Invoke:
         self.piece.already_moved = True
         if self.type == "kill":
             self.target_sq.piece.kill()
-        if self.type == "normal":
-            check_castling(self.board, self.piece)
         if self.type == "check":
             self.target_sq.piece.kill()
             self.gm.game_over(self.piece.color)

@@ -12,9 +12,12 @@ class AiMovement:
 
     def pick_move(self):
         self.movegenerator = MoveGenerator(self.board, self.player)
-        self.movegenerator.generate_allowed_moves()
+        self.movegenerator.get_legal_moves()
         self.allowed_moves = self.movegenerator.legal_moves
         for move in self.allowed_moves:
+            if move.type == "check":
+                self.move = move
+                break
             if move.type == "kill":
                 self.move = move
         if not self.move:
