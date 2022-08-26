@@ -8,4 +8,8 @@ class Move:
         if not self.target_sq.piece:
             return "normal"
         elif self.target_sq.piece.color != self.current_sq.piece.color:
-            return "kill"
+            if self.target_sq.piece.type == "king":
+                return "check"
+            else:
+                return "kill"
+

@@ -24,3 +24,5 @@ class AiMovement:
         move_invoke = Invoke(self.move, self.board)
         move_invoke.forward()
         self.move = None
+        self.allowed_moves = None
+        self.movegenerator = None

@@ -1,5 +1,6 @@
 class Invoke:
     def __init__(self, move, board):
+        self.gm = board.gm
         self.board = board
         self.move = move
         self.type = self.move.type
@@ -8,19 +9,20 @@ class Invoke:
         self.target_sq = self.move.target_sq
 
     def forward(self):
-        if self.type == "normal":
-            self.piece.rect.center = self.target_sq.rect.center
-            self.piece.dragging = False
-            self.piece.square = self.target_sq
-            check_castling(self.board, self.piece)
-            self.piece.already_moved = True
-            switch_turns(self.board)
-        elif self.type == "kill":
+        self.piece.square = self.target_sq
+        self.piece.dragging = False
+        self.piece.rect.center = self.target_sq.rect.center
+        self.piece.already_moved = True
+        if self.type == "kill":
             self.target_sq.piece.kill()
-            self.piece.rect.center = self.target_sq.rect.center
-            self.piece.dragging = False
-            self.piece.square = self.target_sq
-            self.piece.already_moved = True
+        if self.type == "normal":
+            check_castling(self.board, self.piece)
+        if self.type == "check":
+            self.target_sq.piece.kill()
+            self.gm.game_over(self.piece.color)
+        else:
+            # board update and turn switch
+            self.board.run()
             switch_turns(self.board)
 
 
