@@ -3,7 +3,8 @@ from settings import *
 from sprites import Player, Tile, Piece, Cursor
 
 class Board:
-    def __init__(self, fen):
+    def __init__(self, fen, manager):
+        self.gm = manager
         self.display_surface = pygame.display.get_surface()
         # sprite groups
         self.players = pygame.sprite.Group()

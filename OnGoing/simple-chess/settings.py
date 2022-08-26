@@ -1,7 +1,7 @@
 # screen settings
 FPS = 60
 TILESIZE = 70
-WIDTH = 8 * TILESIZE
+WIDTH = 8 * TILESIZE + 250
 HEIGTH = 8 * TILESIZE
 
 
