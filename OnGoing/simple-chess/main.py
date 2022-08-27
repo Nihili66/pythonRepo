@@ -6,6 +6,7 @@ from settings import *
 class Game:
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
         pygame.display.set_caption('Chess Game')
         # general setup
         self.screen = pygame.display.set_mode((WIDTH, HEIGTH))
