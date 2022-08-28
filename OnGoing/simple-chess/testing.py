@@ -1,4 +1,16 @@
-list1 = [0,1,2,3,4]
-list2 = [5,6,7,8,9]
-list1.append(list2)
-print(list1)
+import copy
+
+class Test:
+    def __init__(self):
+        self.score = 100
+        self.name = "Test"
+
+
+test1 = Test()
+
+test2 = copy.deepcopy(test1)
+
+if test1 == test2:
+    print("True")
+else:
+    print("False")

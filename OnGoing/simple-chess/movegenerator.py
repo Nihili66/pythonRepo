@@ -7,22 +7,15 @@ class MoveGenerator:
         self.board = board
         self.player = player
         self.player_moves = None
-        self.enemy = None
         self.enemy_moves = None
         self.checked = None
         self.checked_squares = None
 
-    def get_enemy(self):
-        enemy = None
-        for player in self.board.players:
-            if player.color != self.player.color:
-                enemy = player
-        self.enemy = enemy
 
     def generate_enemy_moves(self):
         allowed_moves = []
         for piece in self.board.pieces:
-            if piece.color == self.enemy.color:
+            if piece.color != self.player.color:
                 sq_i = self.board.square_list.index(piece.square)
                 if piece.move_type == "sliding":
                     allowed_moves += sliding_gen(self.board, piece, sq_i)
@@ -67,11 +60,11 @@ class MoveGenerator:
         self.legal_moves = legal_moves
 
     def get_legal_moves(self):
-        self.get_enemy()
         self.generate_allowed_moves()
         self.generate_enemy_moves()
         self.check_for_check()
         self.generate_legal_moves()
+        return self.legal_moves
 
 
 def normal_gen(board, sprite, current_sq_i):

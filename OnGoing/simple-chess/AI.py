@@ -1,4 +1,4 @@
-import random
+from search import Search
 from invokemove import Invoke
 from movegenerator import MoveGenerator
 
@@ -12,16 +12,10 @@ class AiMovement:
 
     def pick_move(self):
         self.movegenerator = MoveGenerator(self.board, self.player)
-        self.movegenerator.get_legal_moves()
-        self.allowed_moves = self.movegenerator.legal_moves
-        for move in self.allowed_moves:
-            if move.type == "check":
-                self.move = move
-                break
-            if move.type == "kill":
-                self.move = move
-        if not self.move:
-            self.move = random.choice(self.allowed_moves)
+        self.allowed_moves = self.movegenerator.get_legal_moves()
+        search = Search(self.board, self.player, self.allowed_moves)
+        search.start_search()
+        self.move = search.best_move
 
     def play_move(self):
         move_invoke = Invoke(self.move, self.board)

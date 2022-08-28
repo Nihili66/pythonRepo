@@ -24,8 +24,10 @@ class GManager:
                 self.manager.clear_and_reset()
                 self.board = Board("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", self)
                 self.board.run()
-                self.whiteP = Player("white", "human", self.board, self.board.players)
-                self.blackP = Player("black", "AI", self.board, self.board.players)
+                self.whiteP = Player("white", "human", self.board)
+                self.board.players.append(self.whiteP)
+                self.blackP = Player("black", "AI", self.board)
+                self.board.players.append(self.blackP)
                 timers_init(self)
 
     def game_play(self, event):
@@ -43,6 +45,7 @@ class GManager:
     def game_over(self, winner):
         self.whiteP.kill()
         self.blackP.kill()
+        self.board.players = []
         game_over_screen(self, winner)
 
     def update(self, time_delta, screen):
