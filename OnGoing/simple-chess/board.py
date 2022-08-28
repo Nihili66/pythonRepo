@@ -8,9 +8,9 @@ class Board:
         self.display_surface = pygame.display.get_surface()
         self.sound = pygame.mixer.Sound("./pieces/click.wav")
         # sprite groups
-        self.players = pygame.sprite.Group()
+        self.players = []
         self.visible_sprites = pygame.sprite.Group()
-        self.pieces = pygame.sprite.Group()
+        self.pieces = []
         self.square_list = list(range(64))
         self.square_to_edges = list(range(64))
         # sprite creation
@@ -59,7 +59,7 @@ class Board:
             if field == "x":
                 pass
             else:
-                Piece(self.square_list[field_index], [self.visible_sprites, self.pieces], fen_dict.get(field)[0], fen_dict.get(field)[1])
+               self.pieces.append(Piece(self.square_list[field_index], [self.visible_sprites], fen_dict.get(field)[0], fen_dict.get(field)[1]))
 
     def run(self):
         self.cursor.update()

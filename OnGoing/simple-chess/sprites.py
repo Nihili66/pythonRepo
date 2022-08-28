@@ -4,8 +4,8 @@ from human import HumanMovement
 from AI import AiMovement
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, color, type, board, group):
-        super().__init__(group)
+    def __init__(self, color, type, board):
+        super().__init__()
         self.board = board
         self.color = color
         self.turn = True if self.color == "white" else False
@@ -52,11 +52,11 @@ class Piece(pygame.sprite.Sprite):
         self.color = piece.split("/")[0]
         self.type = piece.split("/")[1]
         self.move_type = move
+        self.square = square
         self.image = pygame.image.load('./pieces/' + piece + ".png")
         self.rect = self.image.get_rect(center=square.rect.center)
         self.already_moved = False
         self.dragging = False
-        self.square = square
         self.moves = []
 
     def gen_moves(self):
@@ -76,4 +76,6 @@ class Piece(pygame.sprite.Sprite):
             return [-1, 1, -8, 8, -9, 9, -7, 7]
 
     def update(self):
+        if not self.dragging:
+            self.rect.center = self.square.rect.center
         self.moves = self.gen_moves()

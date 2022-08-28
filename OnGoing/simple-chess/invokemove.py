@@ -11,7 +11,6 @@ class Invoke:
     def forward(self):
         self.piece.square = self.target_sq
         self.piece.dragging = False
-        self.piece.rect.center = self.target_sq.rect.center
         self.piece.already_moved = True
         self.board.sound.play()
         if self.type == "kill":
