@@ -1,3 +1,9 @@
+class ImaginaryPlayer:
+    def __init__(self, color, turn):
+        self.color = color
+        self.turn = turn
+
+
 class ImaginaryTile:
     def __init__(self, color, piece_list):
         self.color = color
@@ -49,12 +55,17 @@ class ImaginaryBoard:
         real_pieces = self.real_board.pieces
         # imaginary board data
         self.square_list = []
-        self.players = real_players
+        self.players = []
         self.pieces = []
         self.square_to_edges = self.real_board.square_to_edges
         # initialize imaginary board and pieces
+        self.create_imaginary_players(real_players)
         self.create_imaginary_board(real_square_list)
         self.create_imaginary_pieces(real_pieces, real_square_list)
+
+    def create_imaginary_players(self, real_players):
+        for player in real_players:
+            self.players.append(ImaginaryPlayer(player.color, player.turn))
 
     def create_imaginary_board(self, real_square_list):
         for square in real_square_list:
@@ -97,6 +108,7 @@ class ImaginaryInvoke:
         if self.first_move:
             self.piece.already_moved = True
             self.piece.moves = self.piece.gen_moves()
+        switch_turns(self.board)
 
     def backward(self):
         self.target_sq.piece = None
@@ -113,3 +125,11 @@ class ImaginaryInvoke:
         if self.first_move:
             self.piece.already_moved = False
             self.piece.moves = self.piece.gen_moves()
+        switch_turns(self.board)
+
+def switch_turns(board):
+    for player in board.players:
+        if player.turn:
+            player.turn = False
+        else:
+            player.turn = True

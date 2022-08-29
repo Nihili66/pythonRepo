@@ -17,7 +17,7 @@ class Move:
 
     def get_check_squares(self):
         if self.type == "check":
-            check_squares = []
+            check_squares = [self.current_sq]
             if self.current_sq.piece.type == "rook":
                 sq_difference = - self.board.square_list.index(self.target_sq) + self.board.square_list.index(self.current_sq)
                 if 7 >= sq_difference >= -7:
@@ -72,8 +72,6 @@ class Move:
                             check_squares.append(self.board.square_list[self.board.square_list.index(self.target_sq) + i * 9])
                         else:
                             check_squares.append(self.board.square_list[self.board.square_list.index(self.target_sq) - i * 9])
-            elif self.current_sq.piece.move_type == "normal":
-                check_squares.append(self.current_sq)
             return check_squares
 
 
