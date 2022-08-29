@@ -1,20 +1,20 @@
 from evaluation import Evaluate
-from imagination import ImaginaryBoard, ImaginaryInvoke
+from imagination import ImaginaryInvoke
 from movegenerator import MoveGenerator
 
 class Search:
-    def __init__(self, board, ai_player, ai_moves):
-        # real board
-        self.real_board = board
-        # imaginary board
-        self.board = self.board = ImaginaryBoard(self.real_board)
+    def __init__(self, board, ai_player):
+        # board
+        self.board = board
         self.players = self.board.players
+        self.depth = None
         # player
         self.ai = ai_player
         self.player = self.get_imaginary_players("player")
         self.enemy = self.get_imaginary_players("enemy")
         # player moves
-        self.ai_moves = ai_moves
+        self.alpha = -1000000
+        self.beta = 1000000
         self.best_move = None
 
     def get_imaginary_players(self, ptype):
@@ -27,40 +27,39 @@ class Search:
                     return player
 
     def start_search(self, depth):
-        best_move_this_turn = None
-        best_eval_this_turn = None
-        for move in self.ai_moves:
-            # invoke the player's move
-            move_invoke = ImaginaryInvoke(move, self.board)
-            move_invoke.forward()
-            # iterate through the enemy's moves
-            best_enemy_eval = self.search(depth)
-            if not best_move_this_turn:
-                best_move_this_turn = move
-                best_eval_this_turn = - best_enemy_eval
-            else:
-                if -best_enemy_eval > best_eval_this_turn:
-                    best_move_this_turn = move
-                    best_eval_this_turn = -best_enemy_eval
-            # reset the player's move
-            move_invoke.backward()
-        self.best_move = best_move_this_turn
+        self.depth = depth
+        self.best_move = self.search(depth, self.alpha, self.beta)
         return self.best_move
 
-    def search(self, depth):
+    def search(self, depth, alpha, beta):
         if depth == 0:
             evaluator = Evaluate(self.board)
             return evaluator.evaluate_board()
-
-        # generate the enemy's moves
+        # generate the moves
         generator = MoveGenerator(self.board)
         moves = generator.get_legal_moves()
         best_eval = None
-
+        best_move = None
         for move in moves:
             move_invoke = ImaginaryInvoke(move, self.board)
             move_invoke.forward()
-            evaluation = - self.search(depth - 1)
-            best_eval = evaluation if not best_eval else max(best_eval, evaluation)
-            move_invoke.backward()
-        return best_eval
+            evaluation = - self.search(depth - 1, -beta, -alpha)
+            if depth == self.depth:
+                if not best_eval:
+                    best_move = move
+                    best_eval = evaluation
+                else:
+                    if evaluation > best_eval:
+                        best_move = move
+                        best_eval = evaluation
+
+                move_invoke.backward()
+            else:
+                move_invoke.backward()
+                if evaluation >= beta:
+                    return beta
+                alpha = max(alpha, evaluation)
+        if depth == self.depth:
+            return best_move
+        else:
+            return alpha
