@@ -8,7 +8,7 @@ class Search:
         self.real_board = board
         self.players = self.real_board.players
         # player
-        self.board = None
+        self.board = self.board = ImaginaryBoard(self.real_board)
         self.ai = ai_player
         self.player = self.get_imaginary_players("player")
         self.enemy = self.get_imaginary_players("enemy")
@@ -25,32 +25,24 @@ class Search:
                 if player.color != self.ai.color:
                     return player
 
-    def start_search(self):
+    def search(self):
         best_move_this_turn = None
         best_eval_this_turn = None
         for move in self.ai_moves:
-            # create imaginary board
-            self.board = ImaginaryBoard(self.real_board)
-            self.board.run()
             # invoke the player's move
             move_invoke = ImaginaryInvoke(move, self.board)
             move_invoke.forward()
-            self.board.run()
             # generate the enemy's moves
             enemy_generator = MoveGenerator(self.board, self.enemy)
             enemy_moves = enemy_generator.get_legal_moves()
             # iterate through the enemy's moves
             best_enemy_eval = None
             for enemy_move in enemy_moves:
-                # create enemy board from imaginary board
-                enemy_board = ImaginaryBoard(self.board)
-                enemy_board.run()
                 # invoke the enemy's move
-                enemy_move_invoke = ImaginaryInvoke(enemy_move, enemy_board)
+                enemy_move_invoke = ImaginaryInvoke(enemy_move, self.board)
                 enemy_move_invoke.forward()
-                enemy_board.run()
                 # evaluate the enemy's move
-                enemy_evaluator = Evaluate(enemy_board, self.enemy)
+                enemy_evaluator = Evaluate(self.board, self.enemy)
                 enemy_eval = enemy_evaluator.evaluate_board()
                 # the first iteration
                 if not best_enemy_eval:
@@ -58,6 +50,8 @@ class Search:
                 else:
                     if enemy_eval > best_enemy_eval:
                         best_enemy_eval = enemy_eval
+                # reset the enemy's move
+                enemy_move_invoke.backward()
             # the first iteration
             if not best_move_this_turn:
                 best_move_this_turn = move
@@ -66,5 +60,10 @@ class Search:
                 if -best_enemy_eval > best_eval_this_turn:
                     best_move_this_turn = move
                     best_eval_this_turn = -best_enemy_eval
+            # reset the player's move
+            move_invoke.backward()
         self.best_move = best_move_this_turn
-        self.board = None
+
+    def start_search(self):
+        self.search()
+        return self.best_move

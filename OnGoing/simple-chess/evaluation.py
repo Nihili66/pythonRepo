@@ -3,21 +3,14 @@ class Evaluate:
         self.board = board
         self.pieces = board.pieces
         self.player = player
-        # piece values
-        self.pawn_value = 1
-        self.knight_value = 3
-        self.bishop_value = 3
-        self.rook_value = 5
-        self.queen_value = 9
-        self.king_value = 1000
         # values dict
         self.values = {
-            "pawn": self.pawn_value,
-            "knight": self.knight_value,
-            "bishop": self.bishop_value,
-            "rook": self.rook_value,
-            "queen": self.queen_value,
-            "king": self.king_value
+            "pawn": 1,
+            "knight": 3,
+            "bishop": 3,
+            "rook": 5,
+            "queen": 9,
+            "king": 1000
         }
         # evaluation
         self.white_evaluation = 0

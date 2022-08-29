@@ -6,20 +6,15 @@ class AiMovement:
     def __init__(self, board, player):
         self.board = board
         self.player = player
-        self.movegenerator = None
-        self.allowed_moves = None
+        self.movegenerator = MoveGenerator(self.board, self.player)
+        self.legal_moves = None
         self.move = None
 
     def pick_move(self):
-        self.movegenerator = MoveGenerator(self.board, self.player)
-        self.allowed_moves = self.movegenerator.get_legal_moves()
-        search = Search(self.board, self.player, self.allowed_moves)
-        search.start_search()
-        self.move = search.best_move
+        self.legal_moves = self.movegenerator.get_legal_moves()
+        search = Search(self.board, self.player, self.legal_moves)
+        self.move = search.start_search()
 
     def play_move(self):
         move_invoke = Invoke(self.move, self.board)
         move_invoke.forward()
-        self.move = None
-        self.allowed_moves = None
-        self.movegenerator = None

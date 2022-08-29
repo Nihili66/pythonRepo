@@ -7,21 +7,25 @@ class Invoke:
         self.current_sq = self.move.current_sq
         self.piece = self.current_sq.piece
         self.target_sq = self.move.target_sq
+        self.target_piece = self.target_sq.piece
+        self.first_move = True if not self.piece.already_moved else False
 
     def forward(self):
-        self.piece.square = self.target_sq
-        self.piece.dragging = False
-        self.piece.already_moved = True
-        self.board.sound.play()
         if self.type == "kill":
             self.target_sq.piece.kill()
+        self.current_sq.piece = None
+        self.target_sq.piece = self.piece
+        self.piece.square = self.target_sq
+        self.piece.dragging = False
+        self.board.sound.play()
         if self.type == "check":
             self.target_sq.piece.kill()
             self.gm.game_over(self.piece.color)
         else:
-            # board update and turn switch
-            self.board.run()
             switch_turns(self.board)
+        if self.first_move:
+            self.piece.already_moved = True
+            self.piece.moves = self.piece.gen_moves()
 
 
 def check_castling(board, sprite):
