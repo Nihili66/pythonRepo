@@ -1,4 +1,4 @@
-from piecesquaretables import SquareTable
+from piecesquaretables import table_dict
 
 class Evaluate:
     def __init__(self, board):
@@ -21,10 +21,14 @@ class Evaluate:
 
     def evaluate_pieces(self):
         for piece in self.pieces:
+            squaretable = table_dict.get(piece.type)
+            sq_i = self.board.square_list.index(piece.square)
+            y = sq_i // 8
+            x = sq_i - (y * 8)
             if piece.color == "white":
-                self.white_evaluation += self.values[piece.type]
+                self.white_evaluation += self.values[piece.type] * squaretable[y][x]
             elif piece.color == "black":
-                self.black_evaluation += self.values[piece.type]
+                self.black_evaluation += self.values[piece.type] * squaretable[7 - y][x]
 
     def evaluate_board(self):
         self.evaluate_pieces()

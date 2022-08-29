@@ -1,6 +1,5 @@
 from search import Search
 from invokemove import Invoke
-from movegenerator import MoveGenerator
 
 class AiMovement:
     def __init__(self, board, player):
