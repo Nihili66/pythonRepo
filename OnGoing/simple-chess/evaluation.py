@@ -21,15 +21,10 @@ class Evaluate:
 
     def evaluate_pieces(self):
         for piece in self.pieces:
-            squaretable = SquareTable(piece.type).table
-            sq_i = self.board.square_list.index(piece.square)
-            y = sq_i // 8
-            x = sq_i - (y * 8)
             if piece.color == "white":
-                self.white_evaluation += self.values[piece.type] * squaretable[y][x]
+                self.white_evaluation += self.values[piece.type]
             elif piece.color == "black":
-                squaretable.reverse()
-                self.black_evaluation += self.values[piece.type] * squaretable[y][x]
+                self.black_evaluation += self.values[piece.type]
 
     def evaluate_board(self):
         self.evaluate_pieces()

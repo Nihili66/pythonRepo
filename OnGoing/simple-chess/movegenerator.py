@@ -55,14 +55,16 @@ class MoveGenerator:
     def generate_legal_moves(self):
         legal_moves = []
         for move in self.player_moves:
-            if move.current_sq.piece:
-                if self.checked:
-                    if move.current_sq.piece.type == "king" and move.target_sq not in self.checked_squares:
+            if self.checked:
+                if move.current_sq.piece.type == "king":
+                    if move.target_sq not in self.checked_squares and not move.target_sq.piece:
                         legal_moves.append(move)
-                    elif move.target_sq in self.checked_squares and move.current_sq.piece.type != "king":
+                    elif move.target_sq in self.checked_squares and move.target_sq.piece:
                         legal_moves.append(move)
-                elif not self.checked:
+                elif move.target_sq in self.checked_squares and move.current_sq.piece.type != "king":
                     legal_moves.append(move)
+            elif not self.checked:
+                legal_moves.append(move)
         self.legal_moves = legal_moves
 
     def get_legal_moves(self):
