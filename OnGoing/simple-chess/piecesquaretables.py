@@ -67,7 +67,3 @@ table_dict = {
     "queen": queen_table,
     "king": king_table
 }
-
-class SquareTable:
-    def __init__(self, piece):
-        self.table = table_dict[piece]
