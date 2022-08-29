@@ -41,7 +41,6 @@ class Tile(pygame.sprite.Sprite):
         return None
 
     def update(self):
-        self.piece = self.check_for_piece()
         self.image.fill(self.color)
 
 class Piece(pygame.sprite.Sprite):
@@ -57,7 +56,7 @@ class Piece(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=square.rect.center)
         self.already_moved = False
         self.dragging = False
-        self.moves = []
+        self.moves = self.gen_moves()
 
     def gen_moves(self):
         if self.type == "pawn" and self.color == "white":
@@ -78,4 +77,3 @@ class Piece(pygame.sprite.Sprite):
     def update(self):
         if not self.dragging:
             self.rect.center = self.square.rect.center
-        self.moves = self.gen_moves()

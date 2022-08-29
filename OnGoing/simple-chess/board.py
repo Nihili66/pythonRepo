@@ -60,6 +60,9 @@ class Board:
                 pass
             else:
                self.pieces.append(Piece(self.square_list[field_index], [self.visible_sprites], fen_dict.get(field)[0], fen_dict.get(field)[1]))
+        for square in self.square_list:
+            square.piece = square.check_for_piece()
+
 
     def run(self):
         self.cursor.update()

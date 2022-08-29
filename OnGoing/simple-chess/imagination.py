@@ -11,9 +11,6 @@ class ImaginaryTile:
                 return sprite
         return None
 
-    def update(self):
-        self.piece = self.check_for_piece()
-
 
 class ImaginaryPiece:
     def __init__(self, square, piece, move):
@@ -24,7 +21,7 @@ class ImaginaryPiece:
         self.square = square
         self.already_moved = False
         self.dragging = False
-        self.moves = []
+        self.moves = self.gen_moves()
 
     def gen_moves(self):
         if self.type == "pawn" and self.color == "white":
@@ -41,9 +38,6 @@ class ImaginaryPiece:
             return [-17, -15, -10, -6, 6, 10, 15, 17]
         elif self.type == "king":
             return [-1, 1, -8, 8, -9, 9, -7, 7]
-
-    def update(self):
-        self.moves = self.gen_moves()
 
 
 class ImaginaryBoard:
@@ -69,19 +63,15 @@ class ImaginaryBoard:
     def create_imaginary_pieces(self, real_pieces, real_square_list):
         for piece in real_pieces:
             self.pieces.append(ImaginaryPiece(self.square_list[real_square_list.index(piece.square)], piece.name, piece.move_type))
-
-    def run(self):
-        for piece in self.pieces:
-            piece.update()
         for square in self.square_list:
-            square.update()
+            square.piece = square.check_for_piece()
 
 
 class ImaginaryInvoke:
     def __init__(self, move, board):
         # real move data
         self.move = move
-        self.type = self.move.type
+        self.type = move.type
         self.real_current_sq = self.move.current_sq
         self.real_piece = self.real_current_sq.piece
         self.real_target_sq = self.move.target_sq
@@ -89,16 +79,37 @@ class ImaginaryInvoke:
         self.board = board
         self.square_list = self.board.square_list
         self.pieces = self.board.pieces
+        # imaginary move data
         self.current_sq = self.square_list[self.move.board.square_list.index(self.real_current_sq)]
         self.piece = self.current_sq.piece
         self.target_sq = self.square_list[self.move.board.square_list.index(self.real_target_sq)]
+        self.target_piece = self.target_sq.piece
+        self.first_move = True if not self.piece.already_moved else False
 
     def forward(self):
-        self.piece.square = self.target_sq
-        self.piece.dragging = False
-        self.piece.already_moved = True
         if self.type == "kill":
-            self.board.pieces.remove(self.target_sq.piece)
+            self.pieces.remove(self.target_piece)
         if self.type == "check":
-            self.board.pieces.remove(self.target_sq.piece)
-        self.board.run()
+            self.pieces.remove(self.target_piece)
+        self.current_sq.piece = None
+        self.target_sq.piece = self.piece
+        self.piece.square = self.target_sq
+        if self.first_move:
+            self.piece.already_moved = True
+            self.piece.moves = self.piece.gen_moves()
+
+    def backward(self):
+        self.target_sq.piece = None
+        self.current_sq.piece = self.piece
+        self.piece.square = self.current_sq
+        if self.type == "kill":
+            self.board.pieces.append(self.target_piece)
+            self.target_piece.square = self.target_sq
+            self.target_sq.piece = self.target_piece
+        if self.type == "check":
+            self.board.pieces.append(self.target_piece)
+            self.target_piece.square = self.target_sq
+            self.target_sq.piece = self.target_piece
+        if self.first_move:
+            self.piece.already_moved = False
+            self.piece.moves = self.piece.gen_moves()
