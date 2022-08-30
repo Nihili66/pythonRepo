@@ -1,4 +1,4 @@
-HEIGHT = 560
-WIDTH = 800
-FPS = 60
+HEIGHT = 700
+WIDTH = 1280
+FPS = 120
 TITLE = "Particle Simulation"
