@@ -1,6 +1,7 @@
 import pygame
 import sys
 from settings import *
+from plain import Plain
 
 
 class Game:
@@ -12,6 +13,8 @@ class Game:
         self.background = pygame.Surface((WIDTH, HEIGHT))
         self.background.fill(pygame.Color('#000000'))
         self.clock = pygame.time.Clock()
+        # plain initialization
+        self.plain = Plain(self.clock)
 
     def run(self):
         while True:
@@ -21,6 +24,9 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
+            self.clock.tick(FPS)
+            self.background.fill(pygame.Color('#000000'))
+            self.plain.update()
             pygame.display.update()
             self.screen.blit(self.background, (0, 0))
 
