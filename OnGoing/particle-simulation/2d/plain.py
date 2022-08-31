@@ -12,7 +12,7 @@ class Plain:
         self.G = 0.0001
         self.particles = []
         # particle initialization
-        self.center = Particle((-150, -200), self, 100000, 20, "red")
+        self.center = Particle((0, 0), self, 200000, 50, "yellow")
         # self.create_random_particles()
         self.create_custom_particles()
 
@@ -30,12 +30,17 @@ class Plain:
 
     def create_custom_particles(self):
         self.particles.append(self.center)
-        self.center.velocity.y = 0.1
-        planet = Particle((150, 200), self, 100000, 20, "blue")
+        planet1 = Particle((100, 0), self, 1000, 7, "red")
+        self.particles.append(planet1)
+        planet1.velocity.y = 0.4
+        planet = Particle((350, 0), self, 10000, 10, "blue")
         self.particles.append(planet)
-        planet.velocity.y = -0.1
+        planet.velocity.y = 0.25
+        moon = Particle((400, 0), self, 1, 3, "white")
+        self.particles.append(moon)
+        moon.velocity.y = 0.3
 
     def update(self):
         for particle in self.particles:
             particle.update()
-            particle.draw(self.display_surface)
+            particle.draw(self.display_surface, self.center)
