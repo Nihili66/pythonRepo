@@ -7,36 +7,35 @@ class Plain:
     def __init__(self, clock):
         self.display_surface = pygame.display.get_surface()
         self.clock = clock
+        self.constrained = False
         # particle groups
         self.G = 0.0001
         self.particles = []
         # particle initialization
-        self.center = Particle((0, 0), self, 100000, 50)
+        self.center = Particle((-150, -200), self, 100000, 20, "red")
         # self.create_random_particles()
         self.create_custom_particles()
 
     def create_random_particles(self):
         self.particles.append(self.center)
-        self.center.velocity.x = -0.5
-        self.center.velocity.y = -0.5
-        for i in range(2):
-            x = 150 * (i + 1)
-            y = 0
-            size = random.randint(10, 15)
-            mass = random.randint(5000, 7500)
-            planet = Particle((x, y), self, mass, size)
-            planet.velocity.y = -1
+        for i in range(3):
+            x = random.randint(-WIDTH // 2, WIDTH // 2)
+            y = random.randint(- HEIGHT // 2, HEIGHT // 2)
+            size = random.randint(20, 30)
+            mass = random.randint(750, 1000)
+            planet = Particle((x, y), self, mass, size, "white")
+            planet.velocity.x = -0.2
+            planet.velocity.y = -0.2
             self.particles.append(planet)
 
     def create_custom_particles(self):
         self.particles.append(self.center)
-        self.center.velocity.x = -0.1
-        self.center.velocity.y = -0.1
-        planet = Particle((200, 0), self, 1, 10)
+        self.center.velocity.y = 0.1
+        planet = Particle((150, 200), self, 100000, 20, "blue")
         self.particles.append(planet)
-        planet.velocity.y = -0.2
+        planet.velocity.y = -0.1
 
     def update(self):
         for particle in self.particles:
             particle.update()
-            particle.draw(self.display_surface, self.center)
+            particle.draw(self.display_surface)
