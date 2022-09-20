@@ -61,14 +61,14 @@ class Piece(pygame.sprite.Sprite):
     def gen_moves(self):
         if self.type == "pawn" and self.color == "white":
             if self.already_moved:
-                return [-8, -7, -9]
+                return [-7, -9, -8]
             elif not self.already_moved:
-                return [-8, -16, -7, -9]
+                return [-7, -9, -8, -16]
         elif self.type == "pawn" and self.color == "black":
             if self.already_moved:
-                return [8, 7, 9]
+                return [7, 9, 8]
             elif not self.already_moved:
-                return [8, 16, 7, 9]
+                return [7, 9, 8, 16]
         elif self.type == "knight":
             return [-17, -15, -10, -6, 6, 10, 15, 17]
         elif self.type == "king":

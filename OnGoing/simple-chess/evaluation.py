@@ -8,12 +8,12 @@ class Evaluate:
         self.player = None
         # values dict
         self.values = {
-            "pawn": 1,
-            "knight": 3,
-            "bishop": 3,
-            "rook": 5,
-            "queen": 9,
-            "king": 1000
+            "pawn": 100,
+            "knight": 300,
+            "bishop": 350,
+            "rook": 500,
+            "queen": 900,
+            "king": 100000
         }
         # evaluation
         self.white_evaluation = 0
@@ -26,9 +26,11 @@ class Evaluate:
             y = sq_i // 8
             x = sq_i - (y * 8)
             if piece.color == "white":
-                self.white_evaluation += self.values[piece.type] * squaretable[y][x]
+                # self.white_evaluation += self.values[piece.type] * squaretable[y][x]
+                self.white_evaluation += self.values[piece.type]
             elif piece.color == "black":
-                self.black_evaluation += self.values[piece.type] * squaretable[7 - y][x]
+                # self.black_evaluation += self.values[piece.type] * squaretable[7 - y][x]
+                self.black_evaluation += self.values[piece.type]
 
     def evaluate_board(self):
         self.evaluate_pieces()

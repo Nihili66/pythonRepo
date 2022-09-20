@@ -73,6 +73,3 @@ class Move:
                         else:
                             check_squares.append(self.board.square_list[self.board.square_list.index(self.target_sq) - i * 9])
             return check_squares
-
-
-

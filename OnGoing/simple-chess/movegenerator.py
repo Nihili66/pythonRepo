@@ -17,7 +17,6 @@ class MoveGenerator:
             if player.turn:
                 self.player = player
 
-
     def generate_enemy_moves(self):
         allowed_moves = []
         for square_index, square in enumerate(self.board.square_list):
@@ -83,22 +82,24 @@ def normal_gen(board, sprite, current_sq_i):
     for move in sprite.moves:
         target_sq_i = current_sq_i + move
         if 64 > target_sq_i >= 0:
+            target_y = int(target_sq_i / 8)
+            target_x = int(target_sq_i - target_y * 8)
+            max_move = max(abs(x - target_x), abs(y - target_y))
             if sprite.type == "pawn":
-                target_y = int(target_sq_i / 8)
-                target_x = int(target_sq_i - target_y * 8)
-                max_move = max(abs(x - target_x), abs(y - target_y))
                 if max_move <= 2:
-                    if board.square_list[target_sq_i].piece and board.square_list[
-                        target_sq_i].piece.color != sprite.color and move in sprite.moves[-2:]:
-                        allowed_moves.append(
-                            Move(board.square_list[current_sq_i], board.square_list[target_sq_i], board))
-                    elif not board.square_list[target_sq_i].piece and move not in sprite.moves[-2:]:
-                        allowed_moves.append(
-                            Move(board.square_list[current_sq_i], board.square_list[target_sq_i], board))
+                    if board.square_list[target_sq_i].piece:
+                        if board.square_list[target_sq_i].piece.color != sprite.color:
+                            if move in sprite.moves[:2]:
+                                allowed_moves.append(
+                                    Move(board.square_list[current_sq_i], board.square_list[target_sq_i], board))
+                        else:
+                            if move not in sprite.moves[:2]:
+                                break
+                    else:
+                        if move not in sprite.moves[:2]:
+                            allowed_moves.append(
+                                Move(board.square_list[current_sq_i], board.square_list[target_sq_i], board))
             elif sprite.type == "knight":
-                target_y = int(target_sq_i / 8)
-                target_x = int(target_sq_i - target_y * 8)
-                max_move = max(abs(x - target_x), abs(y - target_y))
                 if max_move == 2:
                     if board.square_list[target_sq_i].piece and board.square_list[
                         target_sq_i].piece.color != sprite.color:
@@ -108,9 +109,6 @@ def normal_gen(board, sprite, current_sq_i):
                         allowed_moves.append(
                             Move(board.square_list[current_sq_i], board.square_list[target_sq_i], board))
             elif sprite.type == "king":
-                target_y = int(target_sq_i / 8)
-                target_x = int(target_sq_i - target_y * 8)
-                max_move = max(abs(x - target_x), abs(y - target_y))
                 if max_move <= 2:
                     if board.square_list[target_sq_i].piece and board.square_list[
                         target_sq_i].piece.color != sprite.color:
