@@ -1,5 +1,5 @@
 from evaluation import Evaluate
-from imagination import ImaginaryInvoke
+from invokemove import ImaginaryInvoke
 from movegenerator import MoveGenerator
 
 class Search:
