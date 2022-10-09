@@ -93,3 +93,33 @@ def login():
 def logout():
     del session['user_id']
     return redirect(url_for("index"))
+
+@bp.route('/reset-password', methods=('GET', 'POST'))
+def reset_password():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm-password']
+        db = get_db()
+        error = None
+        user = db.execute_sql('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+
+        if not email:
+            error = 'E-mail is required.'
+        elif not user:
+            error = 'E-mail is not registered.'
+        elif not password:
+            error = 'Password is required.'
+        elif not password == confirm_password:
+            error = 'Password confirmation does not match.'
+
+        if error is None:
+            db.execute_sql(
+                "UPDATE users SET password = ? WHERE email = ?",
+                (generate_password_hash(password), email),
+            )
+            return redirect(url_for("auth.login"))
+
+        flash(error)
+
+    return render_template("auth/reset-password.html")
