@@ -115,3 +115,11 @@ def users():
     users_entries = db.execute_sql(
         "SELECT id, username, firstn, lastn, orders, adresses, email FROM users").fetchall()
     return render_template("admin/users.html", users=users_entries)
+
+@bp.route('settings')
+@login_required
+def settings():
+    db = get_db()
+    settings_entries = db.execute_sql(
+        "SELECT id, name, options, selected FROM settings").fetchall()
+    return render_template("admin/settings.html")
