@@ -9,7 +9,10 @@ class Board:
         # sprite groups
         self.visible_sprites = pygame.sprite.Group()
         self.square_list = list(range(64))
+        self.piece_list = []
+        self.players = []
         # sprite creation
+        self.cursor = Cursor()
         self.create_board()
         self.create_pieces()
 
@@ -20,16 +23,19 @@ class Board:
                 color = (245, 210, 154) if is_light else (110, 77, 26)
                 x = file * TILESIZE
                 y = rank * TILESIZE
-                self.square_list[file + (rank * 8)] = Tile(color, (x, y), [self.visible_sprites])
+                self.square_list[file + (rank * 8)] = Tile(color, (x, y), [self.visible_sprites], self.piece_list)
 
     def create_pieces(self):
         for square in self.square_list:
             if square.color == (245, 210, 154):
                 if square.rect.y < 3 * TILESIZE:
-                    Piece(square, [self.visible_sprites], "black/pawn")
+                    self.piece_list.append(Piece(square, [self.visible_sprites], "black/pawn"))
                 elif square.rect.y > 4 * TILESIZE:
-                    Piece(square, [self.visible_sprites], "white/pawn")
+                    self.piece_list.append(Piece(square, [self.visible_sprites], "white/pawn"))
+        for square in self.square_list:
+            square.piece = square.check_for_piece()
 
     def run(self):
+        self.cursor.update()
         self.visible_sprites.draw(self.display_surface)
         self.visible_sprites.update()
