@@ -44,6 +44,7 @@ class Piece(pygame.sprite.Sprite):
         self.square = square
         self.image = pygame.image.load('./pieces/' + piece + ".png")
         self.rect = self.image.get_rect(center=square.rect.center)
+        self.dragging = False
 
     def gen_moves(self):
         if self.color == "white":
@@ -52,7 +53,8 @@ class Piece(pygame.sprite.Sprite):
             return [7, 9]
 
     def update(self):
-        self.rect.center = self.square.rect.center
+        if not self.dragging:
+            self.rect.center = self.square.rect.center
 
 
 class Cursor(pygame.sprite.Sprite):

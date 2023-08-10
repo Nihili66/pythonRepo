@@ -4,7 +4,8 @@ from sprites import *
 
 
 class Board:
-    def __init__(self):
+    def __init__(self, gm):
+        self.gm = gm
         self.display_surface = pygame.display.get_surface()
         # sprite groups
         self.visible_sprites = pygame.sprite.Group()

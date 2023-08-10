@@ -12,7 +12,7 @@ class GManager:
         self.board = None
 
     def game_init(self, player1, player2):
-        self.board = Board()
+        self.board = Board(self)
         self.whiteP = Player("white", player1, self.board)
         self.blackP = Player("black", player2, self.board)
         self.board.run()

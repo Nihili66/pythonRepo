@@ -1,13 +1,14 @@
 import pygame
 from settings import TILESIZE
 from movegenerator import MoveGenerator
-# from invokemove import Invoke
+from invokemove import Invoke
 
 class HumanMovement:
     def __init__(self, board, player):
         self.board = board
         self.player = player
         self.movegenerator = None
+        self.moveinvoke = None
         self.current_sq = None
         self.piece = None
         self.target_sq = None
@@ -38,8 +39,8 @@ class HumanMovement:
                         if move.current_sq == self.current_sq and move.target_sq == self.target_sq:
                             self.move = move
                     if self.move:
-                        self.movegenerator.move_invoke = self.move
-                        self.movegenerator.forward()
+                        self.moveinvoke = Invoke(self.move, self.board)
+                        self.moveinvoke.forward()
                         self.move = None
                         hover_squares(self.allowed_moves, self.current_sq, False)
                     elif not self.move:
