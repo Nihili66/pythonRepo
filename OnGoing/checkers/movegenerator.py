@@ -34,13 +34,14 @@ def pawn_gen(board, sprite, current_sq_i):
     for direction_index, direction in enumerate(board.square_to_edges[current_sq_i][x:y]):
         if direction == 0:
             continue
-        target_sq_i = current_sq_i + offset[direction_index]
+        number = offset[direction_index]
+        target_sq_i = current_sq_i + number
         if target_sq_i in range(64):
             target_sq = board.square_list[target_sq_i]
             if not target_sq.piece:
-                allowed_moves.append(Move(sprite.square, target_sq, board))
+                allowed_moves.append(Move(sprite.square, target_sq, target_sq_i, board, number))
             elif target_sq.piece.color != sprite.color:
-                allowed_moves.append(Move(sprite.square, target_sq, board))
+                allowed_moves.append(Move(sprite.square, target_sq, target_sq_i, board, number))
     return allowed_moves
 
 
