@@ -29,8 +29,12 @@ class MoveGenerator:
 def pawn_gen(board, sprite, current_sq_i):
     allowed_moves = []
     offset = sprite.gen_moves()
-    for move in offset:
-        target_sq_i = current_sq_i + move
+    x = None if sprite.color == "white" else 2
+    y = 2 if sprite.color == "white" else None
+    for direction_index, direction in enumerate(board.square_to_edges[current_sq_i][x:y]):
+        if direction == 0:
+            continue
+        target_sq_i = current_sq_i + offset[direction_index]
         if target_sq_i in range(64):
             target_sq = board.square_list[target_sq_i]
             if not target_sq.piece:

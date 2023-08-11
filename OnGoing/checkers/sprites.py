@@ -48,9 +48,9 @@ class Piece(pygame.sprite.Sprite):
 
     def gen_moves(self):
         if self.color == "white":
-            return [-7, -9]
+            return [-9, -7]
         else:
-            return [7, 9]
+            return [9, 7]
 
     def update(self):
         if not self.dragging:
