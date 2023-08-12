@@ -1,5 +1,6 @@
 from move import Move
 
+
 class MoveGenerator:
     def __init__(self, board):
         self.legal_moves = []
@@ -40,7 +41,7 @@ def pawn_gen(board, sprite, current_sq_i):
             target_sq = board.square_list[target_sq_i]
             if not target_sq.piece:
                 allowed_moves.append(Move(sprite.square, target_sq, target_sq_i, board, number))
-            elif target_sq.piece.color != sprite.color:
+            elif target_sq.piece.color != sprite.color and not board.square_list[target_sq_i + number].piece:
                 allowed_moves.append(Move(sprite.square, target_sq, target_sq_i, board, number))
     return allowed_moves
 
