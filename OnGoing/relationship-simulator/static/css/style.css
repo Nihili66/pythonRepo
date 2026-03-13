@@ -22,17 +22,45 @@ body {
 .user {
     text-align: right;
     color: blue;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
 }
 
 .ai {
     text-align: left;
     color: green;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
 }
 
 .input-container {
     display: flex;
+    gap: 8px;
+    align-items: flex-end;
 }
 
-input {
+#message-input {
     flex: 1;
+    min-height: 44px;
+    max-height: 120px;
+    resize: vertical;
+    padding: 10px;
+    font-family: Arial;
+}
+
+button {
+    height: 44px;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#status {
+    margin-top: 8px;
+    color: #666;
+    font-size: 14px;
 }

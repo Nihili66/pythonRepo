@@ -12,7 +12,7 @@ state = {
     "mood": "affectionate",
     "overthinking": 0.01,
     "attention": 0.999,
-    "energy": 0.9,
+    "energy": 0.001,
     "insecurity": 0.999,
     "attachment": 0.999,
     "trust": 0.5,
@@ -54,9 +54,21 @@ def save_message(role, content):
     db.commit()
 
 
+def clear_conversation():
+
+    db = get_db()
+
+    db.execute("DELETE FROM messages")
+    db.commit()
+
 @app.route("/")
 def home():
     return render_template("chat.html")
+
+
+@app.route("/messages", methods=["GET"])
+def get_messages():
+    return jsonify({"messages": get_conversation()})
 
 
 @app.route("/send_message", methods=["POST"])
@@ -80,6 +92,12 @@ def send_message():
     save_message("assistant", ai_response)
 
     return jsonify({"response": ai_response})
+
+
+@app.route("/clear_chat", methods=["POST"])
+def clear_chat():
+    clear_conversation()
+    return jsonify({"success": True})
 
 
 if __name__ == "__main__":

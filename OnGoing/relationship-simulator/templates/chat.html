@@ -11,9 +11,12 @@
     <div id="chat-box"></div>
 
     <div class="input-container">
-        <input id="message-input" type="text" placeholder="Type a message...">
-        <button onclick="sendMessage()">Send</button>
+        <textarea id="message-input" placeholder="Type a message..."></textarea>
+        <button id="send-button" onclick="sendMessage()">Send</button>
+        <button id="clear-button" onclick="clearChat()">Clear Chat</button>
     </div>
+
+    <div id="status"></div>
 
 </div>
 
