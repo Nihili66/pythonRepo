@@ -177,6 +177,11 @@ async function clearChat() {
     if (data.success) {
         document.getElementById("chat-box").innerHTML = "";
         scrollToBottom();
+
+        if (data.state) {
+            renderState(data.state);
+            fillStateForm(data.state);
+        }
     }
 }
 

@@ -81,42 +81,42 @@ def update_emotional_state_llm(user_message, state):
     attention_signal = signals["attention"]
 
     # Attachment
-    state["attachment"] += affection * 0.03
-    state["attachment"] -= distance * 0.02
+    state["attachment"] += affection * 0.3
+    state["attachment"] -= distance * 0.2
 
     # Trust
-    state["trust"] += reassurance * 0.04
-    state["trust"] -= conflict * 0.02
+    state["trust"] += reassurance * 0.4
+    state["trust"] -= conflict * 0.2
 
     # Intimacy
-    state["intimacy"] += vulnerability * 0.05
-    state["intimacy"] += affection * 0.02
+    state["intimacy"] += vulnerability * 0.5
+    state["intimacy"] += affection * 0.2
 
     # Frustration
-    state["frustration"] += conflict * 0.05
-    state["frustration"] -= reassurance * 0.03
+    state["frustration"] += conflict * 0.5
+    state["frustration"] -= reassurance * 0.3
 
     # Jealousy
-    state["jealousy"] += jealousy_trigger * 0.06
+    state["jealousy"] += jealousy_trigger * 0.6
 
     # Desire
-    state["desire"] += sexual_tension * 0.05
+    state["desire"] += sexual_tension * 0.5
 
     # Attention
-    state["attention"] += attention_signal * 0.04
-    state["attention"] -= distance * 0.03
+    state["attention"] += attention_signal * 0.4
+    state["attention"] -= distance * 0.3
 
     # Insecurity
-    state["insecurity"] += jealousy_trigger * 0.04
-    state["insecurity"] -= reassurance * 0.03
+    state["insecurity"] += jealousy_trigger * 0.4
+    state["insecurity"] -= reassurance * 0.3
 
     # Overthinking
-    state["overthinking"] += conflict * 0.03
-    state["overthinking"] += distance * 0.02
+    state["overthinking"] += conflict * 0.3
+    state["overthinking"] += distance * 0.2
 
     # Energy
-    state["energy"] += affection * 0.02
-    state["energy"] -= conflict * 0.02
+    state["energy"] += affection * 0.2
+    state["energy"] -= conflict * 0.2
 
     # Clamp all numeric states
     for key in state:
