@@ -107,6 +107,36 @@ button:disabled {
     font-size: 14px;
 }
 
+.analysis-panel {
+    margin-top: 16px;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 12px;
+}
+
+.analysis-panel h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.analysis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.analysis-item {
+    padding: 8px 10px;
+    background: #f8f8f8;
+    border-radius: 6px;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+.analysis-empty {
+    color: #777;
+    font-size: 14px;
+}
+
 #state-view {
     display: flex;
     flex-direction: column;

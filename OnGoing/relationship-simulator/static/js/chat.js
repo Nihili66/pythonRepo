@@ -10,6 +10,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     await loadMessages();
     await loadState();
+    clearAnalysis();
 });
 
 function setLoading(isLoading) {
@@ -36,6 +37,10 @@ function formatStateNumber(value) {
     return Number(value).toFixed(3);
 }
 
+function formatAnalysisNumber(value) {
+    return Number(value ?? 0).toFixed(3);
+}
+
 function renderState(state) {
     let stateView = document.getElementById("state-view");
 
@@ -53,6 +58,35 @@ function renderState(state) {
         <div class="state-item"><strong>Desire:</strong> ${formatStateNumber(state.desire)}</div>
         <div class="state-item"><strong>Situation:</strong> ${state.situation}</div>
     `;
+}
+
+function renderAnalysis(analysis) {
+    let analysisView = document.getElementById("analysis-view");
+
+    if (!analysis) {
+        clearAnalysis();
+        return;
+    }
+
+    analysisView.className = "";
+    analysisView.innerHTML = `
+        <div class="analysis-grid">
+            <div class="analysis-item"><strong>Affection:</strong> ${formatAnalysisNumber(analysis.affection)}</div>
+            <div class="analysis-item"><strong>Conflict:</strong> ${formatAnalysisNumber(analysis.conflict)}</div>
+            <div class="analysis-item"><strong>Reassurance:</strong> ${formatAnalysisNumber(analysis.reassurance)}</div>
+            <div class="analysis-item"><strong>Distance:</strong> ${formatAnalysisNumber(analysis.distance)}</div>
+            <div class="analysis-item"><strong>Vulnerability:</strong> ${formatAnalysisNumber(analysis.vulnerability)}</div>
+            <div class="analysis-item"><strong>Jealousy Trigger:</strong> ${formatAnalysisNumber(analysis.jealousy_trigger)}</div>
+            <div class="analysis-item"><strong>Sexual Tension:</strong> ${formatAnalysisNumber(analysis.sexual_tension)}</div>
+            <div class="analysis-item"><strong>Attention:</strong> ${formatAnalysisNumber(analysis.attention)}</div>
+        </div>
+    `;
+}
+
+function clearAnalysis() {
+    let analysisView = document.getElementById("analysis-view");
+    analysisView.className = "analysis-empty";
+    analysisView.innerText = "No analysis yet.";
 }
 
 function fillStateForm(state) {
@@ -156,6 +190,8 @@ async function sendMessage() {
         } else {
             await loadState();
         }
+
+        renderAnalysis(data.analysis);
     } catch (error) {
         addMessage("ai", "Something went wrong. Please try again.");
     } finally {
@@ -177,6 +213,7 @@ async function clearChat() {
     if (data.success) {
         document.getElementById("chat-box").innerHTML = "";
         scrollToBottom();
+        clearAnalysis();
 
         if (data.state) {
             renderState(data.state);

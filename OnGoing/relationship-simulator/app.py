@@ -3,7 +3,7 @@ from services.llm_service import generate_ai_response
 from database.db import get_db
 from services.life_simulation import get_current_situation
 from services.emotion_engine import update_emotional_state
-from services.emotion_engine_llm import update_emotional_state_llm
+from services.emotion_engine_llm import update_emotional_state_llm, analyze_message_llm, apply_emotional_signals
 from services.delay_engine import simulate_delay
 from services.behavior_engine import apply_behavior
 
@@ -241,7 +241,8 @@ def send_message():
 
     interpreted_message = apply_behavior(user_message, state)
 
-    state.update(update_emotional_state_llm(user_message, state))
+    analysis = analyze_message_llm(user_message)
+    state.update(apply_emotional_signals(state, analysis))
 
     save_state_to_db(state)
 
@@ -257,7 +258,8 @@ def send_message():
 
     return jsonify({
         "response": ai_response,
-        "state": get_serializable_state()
+        "state": get_serializable_state(),
+        "analysis": analysis
     })
 
 
@@ -267,7 +269,8 @@ def clear_chat():
     reset_state()
     return jsonify({
         "success": True,
-        "state": get_serializable_state()
+        "state": get_serializable_state(),
+        "analysis": None
     })
 
 
